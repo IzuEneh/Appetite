@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import HomeScreen from "./src/Views/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoadingScreen from "./src/Views/ErrorScreen";
+import LoadingScreen from "./src/Views/LoadingScreen";
 
 export type RootStackParamList = {
 	Home: undefined;
