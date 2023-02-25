@@ -28,6 +28,14 @@ function DetailsScreen({ route }: NavProp) {
 			<Text>{business.name}</Text>
 			<Text>Location: {business.location.address1}</Text>
 			<Text>Rating: {business.rating}</Text>
+			<View style={{ alignItems: "center" }}>
+				<Text>Category</Text>
+				<View style={styles.categories}>
+					{business.categories.map((cat, index) => (
+						<Text key={index}>{cat.title}</Text>
+					))}
+				</View>
+			</View>
 			<View style={styles.buttonContainer}>
 				<Pressable
 					style={[
@@ -38,8 +46,10 @@ function DetailsScreen({ route }: NavProp) {
 						},
 					]}
 					onPress={() => {
-						setIndex((index) => index - 1);
-						setBusiness(businesses[index]);
+						// new stuff
+						const newIndex = index - 1;
+						setIndex(newIndex);
+						setBusiness(businesses[newIndex]);
 					}}
 				>
 					<Text>Previous</Text>
@@ -59,8 +69,10 @@ function DetailsScreen({ route }: NavProp) {
 						},
 					]}
 					onPress={() => {
-						setIndex((index) => index + 1);
-						setBusiness(businesses[index]);
+						// console.log("pressed " + index);
+						const newIndex = index + 1;
+						setIndex(newIndex);
+						setBusiness(businesses[newIndex]);
 					}}
 				>
 					<Text>Next</Text>
@@ -91,6 +103,10 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: "row",
 		justifyContent: "center",
+		gap: 10,
+	},
+	categories: {
+		flexDirection: "row",
 		gap: 10,
 	},
 });

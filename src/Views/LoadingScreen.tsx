@@ -25,7 +25,7 @@ function LoadingScreen({ navigation }: NavProp) {
 					},
 				};
 				fetch(
-					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=3&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&`,
+					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&`,
 					options
 				)
 					.then((response) => response.json())
