@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Pressable, Dimensions, Text } from "react-native";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import * as Location from "expo-location";
+import { RootStackParamList } from "../../App";
 
-function HomeScreen() {
+type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
+
+function HomeScreen({ navigation }: NavProp) {
 	const [errorMsg, setErrorMsg] = useState("");
 
 	useEffect(() => {
@@ -18,7 +22,12 @@ function HomeScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Pressable style={styles.button} onPress={getLocation}>
+			<Pressable
+				style={styles.button}
+				onPress={() => {
+					navigation.navigate("Loading");
+				}}
+			>
 				<Text>Click Me</Text>
 			</Pressable>
 		</View>
@@ -40,11 +49,5 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 });
-
-const getLocation = async () => {
-	console.log("Getting location...");
-	const location = await Location.getCurrentPositionAsync();
-	console.log(location);
-};
 
 export default HomeScreen;
