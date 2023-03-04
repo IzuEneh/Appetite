@@ -7,7 +7,8 @@ import * as Location from "expo-location";
 import { RootStackParamList } from "../../App";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Loading">;
-const api_key = process.env.YELP_KEY;
+const api_key =
+	"bearer SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
 function LoadingScreen({ navigation }: NavProp) {
 	useFocusEffect(
 		useCallback(() => {
@@ -20,12 +21,11 @@ function LoadingScreen({ navigation }: NavProp) {
 					method: "GET",
 					headers: {
 						accept: "application/json",
-						authorization:
-							"bearer SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx",
+						authorization: api_key,
 					},
 				};
 				fetch(
-					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&`,
+					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=food&open_now=true&device_platform=mobile-generic`,
 					options
 				)
 					.then((response) => response.json())
