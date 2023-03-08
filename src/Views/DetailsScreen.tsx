@@ -10,7 +10,8 @@ import {
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { styled } from "nativewind";
 
-import { Business, RootStackParamList } from "../../App";
+import { RootStackParamList } from "../../App";
+import { Business, Review } from "./types";
 
 const View = styled(RNView);
 const ImageBackground = styled(RNImageBackground);
@@ -19,9 +20,7 @@ const Pressable = styled(RNPressable);
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
 function DetailsScreen({ route }: NavProp) {
-	const { businesses } = route.params;
-	const [index, setIndex] = useState(0);
-	const [business, setBusiness] = useState(businesses[index]);
+	const { business, reviews } = route.params;
 	return (
 		<View className="flex-1 items-center justify-center">
 			<ImageBackground

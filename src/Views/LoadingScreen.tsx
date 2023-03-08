@@ -5,6 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import * as Location from "expo-location";
 import { RootStackParamList } from "../../App";
+import { Business, Review, SearchResponse } from "./types";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Loading">;
 const api_key =
@@ -15,7 +16,6 @@ function LoadingScreen({ navigation }: NavProp) {
 			(async () => {
 				console.log("Getting location...");
 				const location = await Location.getCurrentPositionAsync();
-				console.log(location);
 				const { latitude, longitude } = location.coords;
 				const options = {
 					method: "GET",
@@ -24,16 +24,38 @@ function LoadingScreen({ navigation }: NavProp) {
 						authorization: api_key,
 					},
 				};
-				fetch(
-					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=food&open_now=true&device_platform=mobile-generic`,
-					options
-				)
-					.then((response) => response.json())
-					.then((response) => {
-						const { businesses } = response;
-						navigation.replace("Details", { businesses });
-					})
-					.catch((err) => console.error(err));
+				try {
+					const response = await fetch(
+						`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=food&open_now=true&device_platform=mobile-generic`,
+						options
+					);
+					const result = (await response.json()) as SearchResponse;
+					const { businesses } = result;
+					const topId = businesses[0].id;
+
+					const fullBusinessRequest = fetch(
+						`https://api.yelp.com/v3/businesses/${topId}`,
+						options
+					);
+
+					const reviewRequest = fetch(
+						`https://api.yelp.com/v3/businesses/${topId}/reviews?limit=20&sort_by=yelp_sort`,
+						options
+					);
+
+					const responses = await Promise.all([
+						fullBusinessRequest,
+						reviewRequest,
+					]);
+					const [businessResponse, reviewResponse] = responses;
+					const business = (await businessResponse.json()) as Business;
+					const { reviews } = (await reviewResponse.json()) as Review;
+
+					navigation.replace("Details", { business, reviews });
+				} catch (err) {
+					console.log("An error Occured: ", err);
+					navigation.goBack();
+				}
 			})();
 		}, [])
 	);
