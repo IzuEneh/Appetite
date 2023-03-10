@@ -12,6 +12,7 @@ import { styled } from "nativewind";
 
 import { RootStackParamList } from "../../App";
 import { Business, Review } from "./types";
+import BottomBar from "../Modules/BottomBar/BottomBar";
 
 const View = styled(RNView);
 const ImageBackground = styled(RNImageBackground);
@@ -22,32 +23,19 @@ type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 function DetailsScreen({ route }: NavProp) {
 	const { business, reviews } = route.params;
 	return (
-		<View className="flex-1 items-center justify-center">
-			<ImageBackground
-				className="w-full basis-2/3"
-				resizeMode="contain"
-				source={{
-					uri: business.image_url,
-				}}
-			/>
-			<View className="w-full basis-1/3 pb-10 px-6 pt-3">
-				<View className="basis-2/3 w-full">
-					<Text>{business.name}</Text>
-					<Text>
-						{business.categories.map((cat, index) => (
-							<Text key={index}>{cat.title} </Text>
-						))}
+		<View className="flex-1 items-center bg-red-500">
+			<View className="basis-1/2 w-full justify-center items-center ">
+				<View className="h-1/3 justify-center items-center bg-amber-400 w-1/3 rounded-xl my-5">
+					<Text className="text-4xl text-slate-100 font-bold">
+						{business.rating} / 5
 					</Text>
-					<Text>{business.rating} / 5</Text>
 				</View>
-				<View className="w-full basis-1/3">
-					<Pressable
-						onPress={() => goToMaps(business.coordinates)}
-						className="bg-sky-400 active:bg-sky-500 w-full h-10 rounded-md justify-center items-center"
-					>
-						<Text className="text-lg font-medium text-white">GO</Text>
-					</Pressable>
-				</View>
+				<Text className="text-4xl font-bold text-slate-100">
+					{business.name}
+				</Text>
+			</View>
+			<View className="basis-1/2 w-full bg-white flex-col-reverse pb-7">
+				<BottomBar />
 			</View>
 		</View>
 	);
