@@ -26,7 +26,7 @@ function LoadingScreen({ navigation }: NavProp) {
 				};
 				try {
 					const response = await fetch(
-						`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=food&open_now=true&device_platform=mobile-generic`,
+						`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=5&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&device_platform=mobile-generic`,
 						options
 					);
 					const result = (await response.json()) as SearchResponse;
