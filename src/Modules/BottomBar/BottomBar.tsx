@@ -1,31 +1,76 @@
 import React from "react";
 import {
-	View as RNView,
-	Pressable as RNPressable,
-	Text as RNText,
-	ImageBackground as RNImageBackground,
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Linking,
+	Alert,
 } from "react-native";
-import { styled } from "nativewind";
-import { FontAwesome } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 
-const View = styled(RNView);
-const Text = styled(RNText);
-const Pressable = styled(RNPressable);
+type Props = {
+	coordinates: { latitude: string; longitude: string };
+	phone: string;
+};
 
-function BottomBar() {
+function BottomBar({ coordinates, phone }: Props) {
+	const handleNavigate = async () => {
+		const { latitude, longitude } = coordinates;
+		const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+		const supported = await Linking.canOpenURL(url);
+		if (!supported) {
+			Alert.alert("Unable to open url");
+			return;
+		}
+
+		await Linking.openURL(url);
+	};
+
+	const handleCall = () => {
+		Linking.openURL(`tel:${phone}`);
+	};
+
 	return (
-		<View className="w-full flex-row px-2 py-1 gap-4">
-			<Pressable className="bg-red-500 basis-2/3 rounded-sm justify-center items-center active:bg-red-700 flex-row gap-x-2 py-1 active:scale-95">
-				<Feather name="map-pin" size={24} color="white" />
-				<Text className="text-white text-xl font-semibold">Get Directions</Text>
-			</Pressable>
-			<Pressable className="justify-center items-center flex-1 border-2 rounded-sm border-red-500 active:bg-slate-100 py-1 active:scale-95 flex-row gap-x-2">
-				<FontAwesome name="phone" size={24} style={{ color: "red" }} />
-				<Text className="text-xl text-red-800 font-semibold">Call</Text>
-			</Pressable>
+		<View style={styles.bottomBar}>
+			<TouchableOpacity style={styles.navigateButton} onPress={handleNavigate}>
+				<Text style={styles.navigateButtonText}>Navigate</Text>
+			</TouchableOpacity>
+			<TouchableOpacity style={styles.callButton} onPress={handleCall}>
+				<Text style={styles.callButtonText}>Call</Text>
+			</TouchableOpacity>
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	bottomBar: {
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "flex-start",
+		gap: 10,
+	},
+	navigateButton: {
+		backgroundColor: "#ED4337",
+		padding: 10,
+		borderRadius: 5,
+		flex: 1,
+	},
+	navigateButtonText: {
+		color: "#ffffff",
+		fontWeight: "bold",
+		fontSize: 16,
+	},
+	callButton: {
+		backgroundColor: "#4CAF50",
+		padding: 10,
+		borderRadius: 5,
+	},
+	callButtonText: {
+		color: "#ffffff",
+		fontWeight: "bold",
+		fontSize: 16,
+	},
+});
 
 export default BottomBar;

@@ -1,25 +1,16 @@
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import {
-	ScrollView,
-	Image,
-	View,
-	Text,
-	TouchableOpacity,
-	StyleSheet,
-} from "react-native";
+import { ScrollView, Image, View, Text, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { RootStackParamList } from "../../App";
+import BottomBar from "../Modules/BottomBar/BottomBar";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
 function Details({ route }: NavProp) {
 	const { business, reviews } = route.params;
 
-	const handleNavigate = () => {};
-
-	const handleCall = () => {};
 	return (
 		<ScrollView>
 			<Image
@@ -71,51 +62,12 @@ function Details({ route }: NavProp) {
 						/>
 					))}
 				</View>
-				<View style={styles.bottomBar}>
-					<TouchableOpacity
-						style={styles.navigateButton}
-						onPress={handleNavigate}
-					>
-						<Text style={styles.navigateButtonText}>Navigate</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.callButton} onPress={handleCall}>
-						<Text style={styles.callButtonText}>Call</Text>
-					</TouchableOpacity>
-				</View>
+				<BottomBar coordinates={business.coordinates} phone={business.phone} />
 			</View>
 		</ScrollView>
 	);
 }
 
-const styles = StyleSheet.create({
-	bottomBar: {
-		height: 60,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "flex-start",
-		gap: 10,
-	},
-	navigateButton: {
-		backgroundColor: "#ED4337",
-		padding: 10,
-		borderRadius: 5,
-		flex: 1,
-	},
-	navigateButtonText: {
-		color: "#ffffff",
-		fontWeight: "bold",
-		fontSize: 16,
-	},
-	callButton: {
-		backgroundColor: "#4CAF50",
-		padding: 10,
-		borderRadius: 5,
-	},
-	callButtonText: {
-		color: "#ffffff",
-		fontWeight: "bold",
-		fontSize: 16,
-	},
-});
+const styles = StyleSheet.create({});
 
 export default Details;
