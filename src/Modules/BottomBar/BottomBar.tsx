@@ -10,7 +10,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 const View = styled(RNView);
-const ImageBackground = styled(RNImageBackground);
 const Text = styled(RNText);
 const Pressable = styled(RNPressable);
 

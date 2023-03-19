@@ -24,8 +24,8 @@ type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 function DetailsScreen({ route }: NavProp) {
 	const { business, reviews } = route.params;
 	return (
-		<View className="flex-1">
-			<View className="basis-4/5 items-center bg-red-500 scroll-auto">
+		<View className="h-screen relative">
+			<View className="items-center bg-red-500 w-screen overflow-scroll h-96">
 				<View className="basis-1/2 w-full justify-center items-center ">
 					<View className="h-1/3 justify-center items-center bg-amber-400 w-1/3 rounded-xl my-5">
 						<Text className="text-4xl text-slate-100 font-bold">
@@ -36,7 +36,7 @@ function DetailsScreen({ route }: NavProp) {
 						{business.name}
 					</Text>
 				</View>
-				<View className="basis-1/2 w-full bg-white rounded-t-3xl py-2 px-3">
+				<View className="h-screen w-full bg-white rounded-t-3xl py-2 px-3">
 					<View className="flex-row gap-x-3">
 						{business.categories.map((cat, index) => (
 							<View className="bg-slate-100 w-24 px-2 py-1 rounded-md justify-center items-center">
@@ -46,7 +46,7 @@ function DetailsScreen({ route }: NavProp) {
 							</View>
 						))}
 					</View>
-					<View className="flex-row gap-x-4 h-64">
+					<View className="flex-row gap-x-4 h-64 w-screen overflow-x-scroll">
 						{business.photos.map((pic, index) => (
 							<Image
 								key={index}
@@ -59,7 +59,7 @@ function DetailsScreen({ route }: NavProp) {
 					</View>
 				</View>
 			</View>
-			<View className="basis-1/5 bg-white border-t border-slate-400 py-2 flex-1">
+			<View className="bg-white h-16  py-3 absolute left-0 right-0 bottom-28">
 				<BottomBar />
 			</View>
 		</View>
