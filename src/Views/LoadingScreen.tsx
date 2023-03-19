@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import * as Location from "expo-location";
 import { RootStackParamList } from "../../App";
-import { Business, Review, SearchResponse } from "./types";
+import { Business, Review, SearchResponse } from "../types";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Loading">;
 const api_key =

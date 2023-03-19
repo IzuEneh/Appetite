@@ -12,7 +12,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { styled } from "nativewind";
 
 import { RootStackParamList } from "../../App";
-import { Business, Review } from "./types";
+import { Business, Review } from "../types";
 import BottomBar from "../Modules/BottomBar/BottomBar";
 
 const View = styled(RNView);

@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoadingScreen from "./src/Views/LoadingScreen";
 import DetailsScreen from "./src/Views/DetailsScreen";
-import { Business, Review } from "./src/Views/types";
+import { Business, Review } from "./src/types";
+import Details from "./src/Views/Details";
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -16,7 +17,6 @@ export type RootStackParamList = {
 	};
 	Navigation: undefined;
 };
-
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,7 +34,7 @@ export default function App() {
 					component={LoadingScreen}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name="Details" component={DetailsScreen} />
+				<Stack.Screen name="Details" component={Details} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
