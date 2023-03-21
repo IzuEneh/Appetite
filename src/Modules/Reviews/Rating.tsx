@@ -1,12 +1,20 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TextStyle } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-function Rating({ rating, size }: { rating: string; size?: number }) {
+function Rating({
+	rating,
+	size,
+	textStyle,
+}: {
+	rating: string;
+	size?: number;
+	textStyle?: TextStyle;
+}) {
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>{rating}</Text>
-			<AntDesign name="star" size={size || 15} color="black" />
+			<Text style={[styles.text, textStyle]}>{rating}</Text>
+			<AntDesign name="star" size={size || 15} color="#eab308" />
 		</View>
 	);
 }

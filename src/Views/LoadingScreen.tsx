@@ -14,7 +14,6 @@ function LoadingScreen({ navigation }: NavProp) {
 	useFocusEffect(
 		useCallback(() => {
 			(async () => {
-				console.log("Getting location...");
 				const location = await Location.getCurrentPositionAsync();
 				const { latitude, longitude } = location.coords;
 				const options = {

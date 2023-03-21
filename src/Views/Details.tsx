@@ -13,6 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { RootStackParamList } from "../../App";
 import BottomBar from "../Modules/BottomBar/BottomBar";
 import Reviews from "../Modules/Reviews/Reviews";
+import BusinessHeader from "../Modules/Details/components/BusinessHeader";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
@@ -25,25 +26,8 @@ function Details({ route }: NavProp) {
 				source={{ uri: business.image_url }}
 				style={{ width: "100%", height: 200 }}
 			/>
-			<View style={{ padding: 16 }}>
-				<Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 8 }}>
-					{business.name}
-				</Text>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						marginBottom: 8,
-					}}
-				>
-					<Text style={{ fontSize: 16, marginRight: 8 }}>
-						{business.rating}
-					</Text>
-					<AntDesign name="star" size={24} color="black" />
-				</View>
-				<Text style={{ fontSize: 16, marginBottom: 8 }}>
-					Price: {business.price}
-				</Text>
+			<View style={{ padding: 16, gap: 16 }}>
+				<BusinessHeader business={business} />
 				<Reviews reviews={reviews} style={styles.reviews} />
 				<Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
 					Photos
