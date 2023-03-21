@@ -5,7 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import * as Location from "expo-location";
 import { RootStackParamList } from "../../App";
-import { Business, Review, SearchResponse } from "../types";
+import { Business, RemoteReview, SearchResponse } from "../types";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Loading">;
 const api_key =
@@ -49,7 +49,7 @@ function LoadingScreen({ navigation }: NavProp) {
 					]);
 					const [businessResponse, reviewResponse] = responses;
 					const business = (await businessResponse.json()) as Business;
-					const { reviews } = (await reviewResponse.json()) as Review;
+					const { reviews } = (await reviewResponse.json()) as RemoteReview;
 
 					navigation.replace("Details", { business, reviews });
 				} catch (err) {

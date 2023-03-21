@@ -55,20 +55,22 @@ export type SearchResponse = {
 	};
 };
 
-export type Review = {
+export type RemoteReview = {
 	total: number;
-	reviews: Array<{
-		id: string;
-		url: string;
-		text: string;
-		rating: string;
-		time_created: string;
-		user: {
-			id: string;
-			profile_url: string;
-			image_url: string;
-			name: string;
-		};
-	}>;
+	reviews: LocalReview[];
 	possible_languages: string[];
+};
+
+export type LocalReview = {
+	id: string;
+	url: string;
+	text: string;
+	rating: string;
+	time_created: string;
+	user: {
+		id: string;
+		profile_url: string;
+		image_url: string;
+		name: string;
+	};
 };

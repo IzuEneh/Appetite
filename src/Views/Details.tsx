@@ -1,10 +1,18 @@
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ScrollView, Image, View, Text, StyleSheet } from "react-native";
+import {
+	ScrollView,
+	Image,
+	View,
+	Text,
+	StyleSheet,
+	Dimensions,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { RootStackParamList } from "../../App";
 import BottomBar from "../Modules/BottomBar/BottomBar";
+import Reviews from "../Modules/Reviews/Reviews";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
@@ -36,20 +44,7 @@ function Details({ route }: NavProp) {
 				<Text style={{ fontSize: 16, marginBottom: 8 }}>
 					Price: {business.price}
 				</Text>
-				<Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
-					Reviews
-				</Text>
-				{reviews.slice(0, 3).map((review) => (
-					<View style={{ marginBottom: 16 }} key={review.id}>
-						<Text style={{ fontSize: 16 }}>{review.text}</Text>
-						<View style={{ flexDirection: "row", alignItems: "center" }}>
-							<Text style={{ fontSize: 14, marginRight: 8 }}>
-								{review.rating}
-							</Text>
-							<AntDesign name="star" size={15} color="black" />
-						</View>
-					</View>
-				))}
+				<Reviews reviews={reviews} style={styles.reviews} />
 				<Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
 					Photos
 				</Text>
@@ -68,6 +63,10 @@ function Details({ route }: NavProp) {
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	reviews: {
+		width: "100%",
+	},
+});
 
 export default Details;

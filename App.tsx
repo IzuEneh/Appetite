@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoadingScreen from "./src/Views/LoadingScreen";
 import DetailsScreen from "./src/Views/DetailsScreen";
-import { Business, Review } from "./src/types";
+import { Business, RemoteReview } from "./src/types";
 import Details from "./src/Views/Details";
 
 export type RootStackParamList = {
@@ -13,7 +13,7 @@ export type RootStackParamList = {
 	Loading: undefined;
 	Details: {
 		business: Business;
-		reviews: Review["reviews"];
+		reviews: RemoteReview["reviews"];
 	};
 	Navigation: undefined;
 };
