@@ -6,14 +6,16 @@ import {
 	TouchableOpacity,
 	Linking,
 	Alert,
+	ViewStyle,
 } from "react-native";
 
 type Props = {
 	coordinates: { latitude: string; longitude: string };
 	phone: string;
+	style?: ViewStyle;
 };
 
-function BottomBar({ coordinates, phone }: Props) {
+function BottomBar({ coordinates, phone, style }: Props) {
 	const handleNavigate = async () => {
 		const { latitude, longitude } = coordinates;
 		const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
@@ -31,7 +33,7 @@ function BottomBar({ coordinates, phone }: Props) {
 	};
 
 	return (
-		<View style={styles.bottomBar}>
+		<View style={[styles.bottomBar, style]}>
 			<TouchableOpacity style={styles.navigateButton} onPress={handleNavigate}>
 				<Text style={styles.navigateButtonText}>Navigate</Text>
 			</TouchableOpacity>
@@ -44,7 +46,6 @@ function BottomBar({ coordinates, phone }: Props) {
 
 const styles = StyleSheet.create({
 	bottomBar: {
-		height: 60,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "flex-start",
