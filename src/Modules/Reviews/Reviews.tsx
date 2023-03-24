@@ -15,7 +15,7 @@ function Reviews({ reviews, style }: Props) {
 		<View style={[styles.container, style]}>
 			<Text style={styles.title}>Reviews</Text>
 			<View style={styles.reviewContainer}>
-				{reviews.map((review) => (
+				{reviews.slice(0, 5).map((review) => (
 					<Review key={review.id} review={review} />
 				))}
 			</View>

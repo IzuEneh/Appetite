@@ -12,7 +12,7 @@ type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
 function Details({ route }: NavProp) {
 	const { business, reviews } = route.params;
-
+	console.log(business.id);
 	return (
 		<>
 			<ScrollView>

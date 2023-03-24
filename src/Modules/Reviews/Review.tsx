@@ -11,7 +11,7 @@ type Props = {
 
 function Review({ review, style }: Props) {
 	return (
-		<View style={[styles.review, style]} key={review.id}>
+		<View style={[styles.container, style]}>
 			<Image source={{ uri: review.user.image_url }} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View style={styles.topBar}>
@@ -25,28 +25,29 @@ function Review({ review, style }: Props) {
 }
 
 const styles = StyleSheet.create({
-	review: {
+	container: {
 		flexDirection: "row",
-		gap: 8,
+		gap: 16,
 		alignItems: "center",
 	},
 	image: {
-		height: 60,
-		width: 60,
+		height: 65,
+		width: 65,
 		borderRadius: 100,
 	},
 	topBar: {
 		flexDirection: "row",
-		// justifyContent: "space-between",
 		gap: 10,
 		alignItems: "center",
+		justifyContent: "space-between",
 	},
 	text: {
 		fontSize: 18,
 		fontWeight: "bold",
 	},
 	textContainer: {
-		// paddingHorizontal: 8,
+		flex: 1,
+		gap: 4,
 	},
 });
 
