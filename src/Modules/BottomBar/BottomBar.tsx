@@ -8,6 +8,8 @@ import {
 	Alert,
 	ViewStyle,
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
 	coordinates: { latitude: string; longitude: string };
@@ -34,10 +36,18 @@ function BottomBar({ coordinates, phone, style }: Props) {
 
 	return (
 		<View style={[styles.bottomBar, style]}>
-			<TouchableOpacity style={styles.navigateButton} onPress={handleNavigate}>
+			<TouchableOpacity
+				style={[styles.navigateButton, styles.iconButton]}
+				onPress={handleNavigate}
+			>
+				<Ionicons name="navigate" size={24} color="white" />
 				<Text style={styles.navigateButtonText}>Navigate</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.callButton} onPress={handleCall}>
+			<TouchableOpacity
+				style={[styles.callButton, styles.iconButton]}
+				onPress={handleCall}
+			>
+				<FontAwesome name="phone" size={24} color="#ED4337" />
 				<Text style={styles.callButtonText}>Call</Text>
 			</TouchableOpacity>
 		</View>
@@ -63,14 +73,21 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	callButton: {
-		backgroundColor: "#4CAF50",
+		backgroundColor: "white",
 		padding: 10,
 		borderRadius: 5,
+		borderWidth: 2,
+		borderColor: "#ED4337",
 	},
 	callButtonText: {
-		color: "#ffffff",
+		color: "#ED4337",
 		fontWeight: "bold",
 		fontSize: 16,
+	},
+	iconButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
 	},
 });
 
