@@ -8,12 +8,12 @@ import {
 	StyleSheet,
 	Dimensions,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 import { RootStackParamList } from "../../App";
 import BottomBar from "../Modules/BottomBar/BottomBar";
 import Reviews from "../Modules/Reviews/Reviews";
 import BusinessHeader from "../Modules/Details/components/BusinessHeader";
+import ImageSlider from "../Modules/Details/components/ImageSlider";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
@@ -22,25 +22,10 @@ function Details({ route }: NavProp) {
 
 	return (
 		<ScrollView>
-			<Image
-				source={{ uri: business.image_url }}
-				style={{ width: "100%", height: 200 }}
-			/>
+			<ImageSlider images={business.photos} />
 			<View style={{ padding: 16, gap: 16 }}>
 				<BusinessHeader business={business} />
 				<Reviews reviews={reviews} style={styles.reviews} />
-				<Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
-					Photos
-				</Text>
-				<View style={{ flexDirection: "row" }}>
-					{business.photos.slice(0, 3).map((photo) => (
-						<Image
-							source={{ uri: photo }}
-							style={{ width: 100, height: 100, marginRight: 8 }}
-							key={photo}
-						/>
-					))}
-				</View>
 				<BottomBar coordinates={business.coordinates} phone={business.phone} />
 			</View>
 		</ScrollView>
