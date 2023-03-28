@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 import HomeScreen from "./src/Views/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
 
 import LoadingScreen from "./src/Views/LoadingScreen";
-import DetailsScreen from "./src/Views/DetailsScreen";
 import { Business, RemoteReview } from "./src/types";
 import Details from "./src/Views/Details";
 
@@ -23,6 +23,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
 	return (
 		<NavigationContainer>
+			<StatusBar style="auto" />
 			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen
 					name="Home"
