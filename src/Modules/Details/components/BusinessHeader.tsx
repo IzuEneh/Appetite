@@ -27,8 +27,8 @@ function BusinessHeader({ business }: Props) {
 
 const styles = StyleSheet.create({
 	container: {
-		width: "100%",
 		gap: 8,
+		flex: 1,
 	},
 	rating: {
 		fontSize: 20,
@@ -37,11 +37,13 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
+		flex: 1,
 	},
 	header: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
+		gap: 16,
 	},
 	price: {
 		fontSize: 16,
