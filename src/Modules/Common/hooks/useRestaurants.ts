@@ -1,14 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import axios from "axios";
 
-import {
-	Business,
-	LocalReview,
-	RemoteReview,
-	SearchResponse,
-} from "../../../types";
+import { Business, RemoteReview, SearchResponse } from "../../../types";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";
@@ -19,13 +13,6 @@ const api_key =
 	"SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
 
 const headers = { authorization: `bearer ${api_key}` };
-const requestOptions = {
-	method: "GET",
-	headers: {
-		accept: "application/json",
-		authorization: api_key,
-	},
-};
 
 const useRestaurants = () => {
 	const [restaurants, setRestaurants] = useState<Business[]>([]);
@@ -39,6 +26,7 @@ const useRestaurants = () => {
 		(async () => {
 			const hasLocation = await requestLocationPermission();
 			if (!hasLocation) {
+				setLoading(false);
 				setError("No Location access");
 				return;
 			}
@@ -52,7 +40,6 @@ const useRestaurants = () => {
 
 			setLoading(false);
 			if (restaurantsWithReviews.length === 0) {
-				console.log("error");
 				setError("Unable To fetch restaurants");
 				return;
 			}
@@ -129,8 +116,10 @@ const fetchRestaurantReviews = async (id: string) => {
 const fetchRestaurantDetailsAndReviews = async (restaurants: Business[]) => {
 	const detailsAndReviews = await Promise.all(
 		restaurants.map(async (restaurant) => {
-			const business = await fetchRestaurantDetails(restaurant.id);
-			const reviews = await fetchRestaurantReviews(restaurant.id);
+			const [business, reviews] = await Promise.all([
+				fetchRestaurantDetails(restaurant.id),
+				fetchRestaurantReviews(restaurant.id),
+			]);
 			if (!business) {
 				return { ...restaurant, reviews };
 			}
