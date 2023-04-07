@@ -4,17 +4,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
-import LoadingScreen from "./src/Views/LoadingScreen";
 import { Business, RemoteReview } from "./src/types";
 import Details from "./src/Views/Details";
 
 export type RootStackParamList = {
 	Home: undefined;
-	Loading: undefined;
 	Details: {
 		business: Business;
 	};
-	Navigation: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,11 +24,6 @@ export default function App() {
 				<Stack.Screen
 					name="Home"
 					component={HomeScreen}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name="Loading"
-					component={LoadingScreen}
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen name="Details" component={Details} />
