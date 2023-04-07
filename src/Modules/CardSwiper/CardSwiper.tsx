@@ -1,15 +1,25 @@
 import React from "react";
-import { Image, View, StyleSheet, ImageBackground, Text } from "react-native";
+import {
+	View,
+	StyleSheet,
+	ImageBackground,
+	Text,
+	ViewStyle,
+} from "react-native";
 import TinderCard from "react-tinder-card";
+import { LinearGradient } from "expo-linear-gradient";
+
 import { Business } from "../../types";
+import Card from "./components/Card";
 
 type Props = {
 	businesses: Business[];
 	onLike: (business: Business) => void;
 	onDislike: (business: Business) => void;
+	style?: ViewStyle;
 };
 
-function CardSwiper({ businesses, onLike, onDislike }: Props) {
+function CardSwiper({ businesses, onLike, onDislike, style }: Props) {
 	const onSwipe = (direction: string, business: Business) => {
 		if (direction == "right") {
 			onLike(business);
@@ -18,26 +28,15 @@ function CardSwiper({ businesses, onLike, onDislike }: Props) {
 		}
 	};
 
-	const onCardLeftScreen = (myIdentifier: any) => {
-		console.log(myIdentifier + " left the screen");
-	};
-
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			{businesses.map((business) => (
 				<TinderCard
 					key={business.id}
 					onSwipe={(direction) => onSwipe(direction, business)}
 					preventSwipe={["up", "down"]}
 				>
-					<View style={styles.card}>
-						<ImageBackground
-							style={styles.cardImage}
-							source={{ uri: business.image_url }}
-						>
-							<Text style={styles.cardTitle}>{business.name}</Text>
-						</ImageBackground>
-					</View>
+					<Card business={business} style={styles.card} />
 				</TinderCard>
 			))}
 		</View>
@@ -47,32 +46,14 @@ function CardSwiper({ businesses, onLike, onDislike }: Props) {
 const styles = StyleSheet.create({
 	container: {
 		width: "90%",
-		maxWidth: 260,
-		height: 300,
+		height: 500,
 	},
 	card: {
 		position: "absolute",
 		backgroundColor: "#fff",
 		width: "100%",
-		maxWidth: 260,
-		height: 300,
-		shadowColor: "black",
-		shadowOpacity: 0.2,
-		shadowRadius: 20,
+		height: 500,
 		borderRadius: 20,
-		resizeMode: "cover",
-	},
-	cardImage: {
-		width: "100%",
-		height: "100%",
-		overflow: "hidden",
-		borderRadius: 20,
-	},
-	cardTitle: {
-		position: "absolute",
-		bottom: 0,
-		margin: 10,
-		color: "#fff",
 	},
 });
 

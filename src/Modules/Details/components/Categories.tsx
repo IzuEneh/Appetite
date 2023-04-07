@@ -4,14 +4,20 @@ import { Business } from "../../../types";
 
 type Props = {
 	categories: Business["categories"];
+	color?: string;
 };
 
-function Categories({ categories }: Props) {
+function Categories({ categories, color }: Props) {
 	return (
 		<View style={styles.container}>
 			{categories.map((cat) => (
-				<View style={styles.category} key={cat.alias}>
-					<Text style={styles.categoryText}>{cat.title}</Text>
+				<View
+					style={[styles.category, { borderColor: color || "black" }]}
+					key={cat.alias}
+				>
+					<Text style={[styles.categoryText, { color: color || "black" }]}>
+						{cat.title}
+					</Text>
 				</View>
 			))}
 		</View>
