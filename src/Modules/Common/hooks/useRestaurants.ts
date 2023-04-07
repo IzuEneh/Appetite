@@ -19,33 +19,31 @@ const useRestaurants = () => {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);
 
-	useFocusEffect(
-		useCallback(() => {
-			(async () => {
-				setLoading(true);
-				const hasLocation = await requestLocationPermission();
-				if (!hasLocation) {
-					setError("No Location access");
-					return;
-				}
+	useEffect(() => {
+		(async () => {
+			setLoading(true);
+			const hasLocation = await requestLocationPermission();
+			if (!hasLocation) {
+				setError("No Location access");
+				return;
+			}
 
-				const location = await Location.getCurrentPositionAsync();
-				const { latitude, longitude } = location.coords;
-				try {
-					const response = await fetch(
-						`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=20&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&device_platform=mobile-generic`,
-						requestOptions
-					);
-					const { businesses } = (await response.json()) as SearchResponse;
-					setLoading(false);
-					setRestaurants(businesses);
-				} catch (err) {
-					setLoading(false);
-					setError("Unable to fetch restaurants");
-				}
-			})();
-		}, [])
-	);
+			const location = await Location.getCurrentPositionAsync();
+			const { latitude, longitude } = location.coords;
+			try {
+				const response = await fetch(
+					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=20&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&device_platform=mobile-generic`,
+					requestOptions
+				);
+				const { businesses } = (await response.json()) as SearchResponse;
+				setLoading(false);
+				setRestaurants(businesses);
+			} catch (err) {
+				setLoading(false);
+				setError("Unable to fetch restaurants");
+			}
+		})();
+	}, []);
 
 	return { restaurants, error, loading };
 };

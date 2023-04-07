@@ -5,11 +5,21 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../App";
 import { useRestaurants } from "../Modules/Common/hooks/useRestaurants";
 import CardSwiper from "../Modules/CardSwiper/CardSwiper";
+import { Business } from "../types";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
 function HomeScreen({ navigation }: NavProp) {
 	const { restaurants, error, loading } = useRestaurants();
+
+	const handleLike = (business: Business) => {
+		navigation.navigate("Details", { business, reviews: null });
+		console.log("Liked: " + business.name);
+	};
+
+	const handleDislike = (business: Business) => {
+		console.log("Disliked: " + business.name);
+	};
 
 	if (loading) {
 		return (
@@ -25,7 +35,11 @@ function HomeScreen({ navigation }: NavProp) {
 
 	return (
 		<View style={styles.container}>
-			<CardSwiper businesses={restaurants} />
+			<CardSwiper
+				businesses={restaurants}
+				onLike={handleLike}
+				onDislike={handleDislike}
+			/>
 		</View>
 	);
 }
