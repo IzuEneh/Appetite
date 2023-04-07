@@ -42,6 +42,7 @@ export type Business = {
 	date_opened?: string;
 	date_closed?: string;
 	photos: string[];
+	reviews: LocalReview[];
 };
 
 export type SearchResponse = {

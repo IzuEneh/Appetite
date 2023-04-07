@@ -13,7 +13,6 @@ export type RootStackParamList = {
 	Loading: undefined;
 	Details: {
 		business: Business;
-		reviews: RemoteReview["reviews"];
 	};
 	Navigation: undefined;
 };

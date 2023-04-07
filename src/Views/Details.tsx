@@ -11,7 +11,7 @@ import ImageSlider from "../Modules/Details/components/ImageSlider";
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
 function Details({ route }: NavProp) {
-	const { business, reviews } = route.params;
+	const { business } = route.params;
 
 	return (
 		<>
@@ -19,7 +19,7 @@ function Details({ route }: NavProp) {
 				<ImageSlider images={business.photos} />
 				<View style={styles.details}>
 					<BusinessHeader business={business} />
-					<Reviews reviews={reviews} style={styles.reviews} />
+					<Reviews reviews={business.reviews} style={styles.reviews} />
 				</View>
 			</ScrollView>
 			<BottomBar

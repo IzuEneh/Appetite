@@ -1,11 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import * as Location from "expo-location";
-import { Business, SearchResponse } from "../../../types";
+import axios from "axios";
+
+import {
+	Business,
+	LocalReview,
+	RemoteReview,
+	SearchResponse,
+} from "../../../types";
+
+const API_ENDPOINT = "https://api.yelp.com/v3";
+const SEARCH_PATH = "/businesses/search";
+const BUSINESS_PATH = "/businesses/";
+const REVIEWS_PATH = "/reviews";
 
 const api_key =
-	"bearer SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
+	"SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
 
+const headers = { authorization: `bearer ${api_key}` };
 const requestOptions = {
 	method: "GET",
 	headers: {
@@ -20,8 +33,10 @@ const useRestaurants = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		setError("");
+		setLoading(true);
+
 		(async () => {
-			setLoading(true);
 			const hasLocation = await requestLocationPermission();
 			if (!hasLocation) {
 				setError("No Location access");
@@ -30,18 +45,19 @@ const useRestaurants = () => {
 
 			const location = await Location.getCurrentPositionAsync();
 			const { latitude, longitude } = location.coords;
-			try {
-				const response = await fetch(
-					`https://api.yelp.com/v3/businesses/search?sort_by=rating&limit=20&latitude=${latitude}&longitude=${longitude}&term=restaurants&open_now=true&device_platform=mobile-generic`,
-					requestOptions
-				);
-				const { businesses } = (await response.json()) as SearchResponse;
-				setLoading(false);
-				setRestaurants(businesses);
-			} catch (err) {
-				setLoading(false);
-				setError("Unable to fetch restaurants");
+			const restaurants = await fetchBestRestaurants(latitude, longitude);
+			const restaurantsWithReviews = await fetchRestaurantDetailsAndReviews(
+				restaurants
+			);
+
+			setLoading(false);
+			if (restaurantsWithReviews.length === 0) {
+				console.log("error");
+				setError("Unable To fetch restaurants");
+				return;
 			}
+
+			setRestaurants(restaurantsWithReviews);
 		})();
 	}, []);
 
@@ -55,6 +71,73 @@ const requestLocationPermission = async () => {
 	}
 
 	return true;
+};
+
+const fetchBestRestaurants = async (latitude: number, longitude: number) => {
+	try {
+		const { data } = await axios.get<SearchResponse>(
+			`${API_ENDPOINT}${SEARCH_PATH}`,
+			{
+				headers,
+				params: {
+					latitude,
+					longitude,
+					term: "restaurants",
+					sort_by: "rating",
+					limit: 5,
+					open_now: true,
+					device_platform: "mobile-generic",
+				},
+			}
+		);
+		return data.businesses;
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
+};
+
+const fetchRestaurantDetails = async (id: string) => {
+	try {
+		const { data } = await axios.get<Business>(
+			`${API_ENDPOINT}${BUSINESS_PATH}${id}`,
+			{ headers }
+		);
+		return data;
+	} catch (error) {
+		console.error(`Error fetching Details: ${error}`);
+		return null;
+	}
+};
+
+const fetchRestaurantReviews = async (id: string) => {
+	try {
+		const { data } = await axios.get<RemoteReview>(
+			`${API_ENDPOINT}${BUSINESS_PATH}${id}${REVIEWS_PATH}`,
+			{
+				headers,
+				params: { limit: 5, sort_by: "yelp_sort" },
+			}
+		);
+		return data.reviews;
+	} catch (error) {
+		console.error(`Error fetching Reviews: ${error}`);
+		return [];
+	}
+};
+
+const fetchRestaurantDetailsAndReviews = async (restaurants: Business[]) => {
+	const detailsAndReviews = await Promise.all(
+		restaurants.map(async (restaurant) => {
+			const business = await fetchRestaurantDetails(restaurant.id);
+			const reviews = await fetchRestaurantReviews(restaurant.id);
+			if (!business) {
+				return { ...restaurant, reviews };
+			}
+			return { ...business, reviews };
+		})
+	);
+	return detailsAndReviews;
 };
 
 export { useRestaurants };

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../App";
@@ -13,12 +13,11 @@ function HomeScreen({ navigation }: NavProp) {
 	const { restaurants, error, loading } = useRestaurants();
 
 	const handleLike = (business: Business) => {
-		navigation.navigate("Details", { business, reviews: null });
-		console.log("Liked: " + business.name);
+		navigation.navigate("Details", { business });
 	};
 
 	const handleDislike = (business: Business) => {
-		console.log("Disliked: " + business.name);
+		// console.log("Disliked: " + business.name);
 	};
 
 	if (loading) {
@@ -30,7 +29,7 @@ function HomeScreen({ navigation }: NavProp) {
 	}
 
 	if (error) {
-		return null; // TODO: Add No Location Component
+		return <Text>error</Text>; // TODO: Add No Location Component
 	}
 
 	return (
