@@ -2,24 +2,26 @@ import React from "react";
 import {
 	View,
 	StyleSheet,
-	ImageBackground,
-	Text,
 	ViewStyle,
+	FlatList,
+	ListRenderItem,
+	ActivityIndicator,
+	Text,
 } from "react-native";
 import TinderCard from "react-tinder-card";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { Business } from "../../types";
+import { useRestaurants } from "../Common/hooks/useRestaurants";
 import Card from "./components/Card";
 
 type Props = {
-	businesses: Business[];
 	onLike: (business: Business) => void;
 	onDislike: (business: Business) => void;
 	style?: ViewStyle;
 };
 
-function CardSwiper({ businesses, onLike, onDislike, style }: Props) {
+function CardSwiper({ onLike, onDislike, style }: Props) {
+	const { restaurants, error, loading, pop } = useRestaurants();
 	const onSwipe = (direction: string, business: Business) => {
 		if (direction == "right") {
 			onLike(business);
@@ -28,12 +30,29 @@ function CardSwiper({ businesses, onLike, onDislike, style }: Props) {
 		}
 	};
 
+	const handleCardLeave = (index: number) => {
+		pop();
+	};
+
+	if (loading) {
+		return (
+			<View style={styles.container}>
+				<ActivityIndicator size="large" />
+			</View>
+		);
+	}
+
+	if (error) {
+		return <Text>error</Text>; // TODO: Add No Location Component
+	}
+
 	return (
 		<View style={[styles.container, style]}>
-			{businesses.map((business) => (
+			{restaurants.map((business, index) => (
 				<TinderCard
 					key={business.id}
 					onSwipe={(direction) => onSwipe(direction, business)}
+					onCardLeftScreen={() => handleCardLeave(index)}
 					preventSwipe={["up", "down"]}
 				>
 					<Card business={business} style={styles.card} />

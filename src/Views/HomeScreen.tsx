@@ -10,8 +10,6 @@ import { Business } from "../types";
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
 function HomeScreen({ navigation }: NavProp) {
-	const { restaurants, error, loading } = useRestaurants();
-
 	const handleLike = (business: Business) => {
 		navigation.navigate("Details", { business });
 	};
@@ -20,25 +18,9 @@ function HomeScreen({ navigation }: NavProp) {
 		// console.log("Disliked: " + business.name);
 	};
 
-	if (loading) {
-		return (
-			<View style={styles.container}>
-				<ActivityIndicator size="large" />
-			</View>
-		);
-	}
-
-	if (error) {
-		return <Text>error</Text>; // TODO: Add No Location Component
-	}
-
 	return (
 		<View style={styles.container}>
-			<CardSwiper
-				businesses={restaurants}
-				onLike={handleLike}
-				onDislike={handleDislike}
-			/>
+			<CardSwiper onLike={handleLike} onDislike={handleDislike} />
 		</View>
 	);
 }

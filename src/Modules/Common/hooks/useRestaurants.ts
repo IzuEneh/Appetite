@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import * as Location from "expo-location";
 import axios from "axios";
 
 import { Business, RemoteReview, SearchResponse } from "../../../types";
+import { useLocation } from "./useLocation";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";
@@ -15,52 +15,80 @@ const api_key =
 const headers = { authorization: `bearer ${api_key}` };
 
 const useRestaurants = () => {
+	const location = useLocation();
 	const [restaurants, setRestaurants] = useState<Business[]>([]);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [offset, setOffset] = useState(0);
+
+	const pop = () => {
+		setRestaurants((restaurants) => restaurants.slice(0, -1));
+	};
 
 	useEffect(() => {
 		setError("");
 		setLoading(true);
 
 		(async () => {
-			const hasLocation = await requestLocationPermission();
-			if (!hasLocation) {
-				setLoading(false);
-				setError("No Location access");
+			if (!location) {
 				return;
 			}
 
-			const location = await Location.getCurrentPositionAsync();
-			const { latitude, longitude } = location.coords;
-			const restaurants = await fetchBestRestaurants(latitude, longitude);
-			const restaurantsWithReviews = await fetchRestaurantDetailsAndReviews(
-				restaurants
+			const { latitude, longitude } = location;
+			const restaurants = await loadMoreRestaurants(
+				latitude,
+				longitude,
+				offset
 			);
 
 			setLoading(false);
-			if (restaurantsWithReviews.length === 0) {
+			if (restaurants.length === 0) {
 				setError("Unable To fetch restaurants");
 				return;
 			}
 
-			setRestaurants(restaurantsWithReviews);
+			const reversed = [...restaurants].reverse();
+			setRestaurants(reversed);
+			setOffset((offset) => offset + 8);
 		})();
-	}, []);
+	}, [location]);
 
-	return { restaurants, error, loading };
+	useEffect(() => {
+		if (restaurants.length < 4) {
+			if (!location) {
+				return;
+			}
+
+			const { latitude, longitude } = location;
+			loadMoreRestaurants(latitude, longitude, offset).then(
+				(newRestaurants) => {
+					const reversed = [...newRestaurants].reverse();
+					setRestaurants([...reversed, ...restaurants]);
+					setOffset((offset) => offset + 8);
+				}
+			);
+		}
+	}, [restaurants]);
+
+	return { restaurants, error, loading, pop };
 };
 
-const requestLocationPermission = async () => {
-	let { status } = await Location.requestForegroundPermissionsAsync();
-	if (status !== "granted") {
-		return false;
-	}
-
-	return true;
+const loadMoreRestaurants = async (
+	latitude: number,
+	longitude: number,
+	offset: number
+) => {
+	const newRestaurants = await fetchBestRestaurants(
+		{ latitude, longitude },
+		offset
+	);
+	return await fetchRestaurantDetailsAndReviews(newRestaurants);
 };
 
-const fetchBestRestaurants = async (latitude: number, longitude: number) => {
+const fetchBestRestaurants = async (
+	{ latitude, longitude }: { latitude: number; longitude: number },
+	offset: number
+) => {
 	try {
 		const { data } = await axios.get<SearchResponse>(
 			`${API_ENDPOINT}${SEARCH_PATH}`,
@@ -71,9 +99,10 @@ const fetchBestRestaurants = async (latitude: number, longitude: number) => {
 					longitude,
 					term: "restaurants",
 					sort_by: "rating",
-					limit: 5,
+					limit: 8,
 					open_now: true,
 					device_platform: "mobile-generic",
+					offset,
 				},
 			}
 		);
@@ -82,6 +111,22 @@ const fetchBestRestaurants = async (latitude: number, longitude: number) => {
 		console.log(error);
 		return [];
 	}
+};
+
+const fetchRestaurantDetailsAndReviews = async (restaurants: Business[]) => {
+	const detailsAndReviews = await Promise.all(
+		restaurants.map(async (restaurant) => {
+			const [business, reviews] = await Promise.all([
+				fetchRestaurantDetails(restaurant.id),
+				fetchRestaurantReviews(restaurant.id),
+			]);
+			if (!business) {
+				return { ...restaurant, reviews };
+			}
+			return { ...business, reviews };
+		})
+	);
+	return detailsAndReviews;
 };
 
 const fetchRestaurantDetails = async (id: string) => {
@@ -111,22 +156,6 @@ const fetchRestaurantReviews = async (id: string) => {
 		console.error(`Error fetching Reviews: ${error}`);
 		return [];
 	}
-};
-
-const fetchRestaurantDetailsAndReviews = async (restaurants: Business[]) => {
-	const detailsAndReviews = await Promise.all(
-		restaurants.map(async (restaurant) => {
-			const [business, reviews] = await Promise.all([
-				fetchRestaurantDetails(restaurant.id),
-				fetchRestaurantReviews(restaurant.id),
-			]);
-			if (!business) {
-				return { ...restaurant, reviews };
-			}
-			return { ...business, reviews };
-		})
-	);
-	return detailsAndReviews;
 };
 
 export { useRestaurants };
