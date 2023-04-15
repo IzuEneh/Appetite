@@ -11,7 +11,7 @@ type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
 function HomeScreen({ navigation }: NavProp) {
 	const handleLike = (business: Business) => {
-		navigation.navigate("Details", { business });
+		navigation.navigate("Details", { id: business.id });
 	};
 
 	const handleDislike = (business: Business) => {

@@ -10,7 +10,7 @@ import Details from "./src/Views/Details";
 export type RootStackParamList = {
 	Home: undefined;
 	Details: {
-		business: Business;
+		id: string;
 	};
 };
 
