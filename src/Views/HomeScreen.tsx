@@ -3,11 +3,10 @@ import { View, StyleSheet, Text } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../App";
-import CardSwiper from "../Modules/CardSwiper/CardSwiper";
 import { Business } from "../types";
-import CategorySelector from "../Modules/Common/components/CategorySelector";
+import FilterButton from "../Modules/Filter/components/FilterButton";
 import BottomSheetComponent from "../Modules/Common/components/BottomSheet";
-import Filter from "../Modules/Common/components/Filter";
+import Filter from "../Modules/Filter/components/Filter";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -25,7 +24,7 @@ function HomeScreen({ navigation }: NavProp) {
 	return (
 		<View style={[styles.container, styles.screenPadding]}>
 			<View>
-				<CategorySelector
+				<FilterButton
 					onChoose={(category) => {
 						setIsFilterOpen(!isFilterOpen);
 					}}

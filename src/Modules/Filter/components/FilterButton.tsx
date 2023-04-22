@@ -7,7 +7,7 @@ type Props = {
 	onChoose: (category: string) => void;
 };
 
-const CategorySelector = ({ onChoose }: Props) => {
+const FilterButton = ({ onChoose }: Props) => {
 	const { showActionSheetWithOptions } = useActionSheet();
 	const [categories, setCategories] = useState([
 		"Restaurants",
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default CategorySelector;
+export default FilterButton;
