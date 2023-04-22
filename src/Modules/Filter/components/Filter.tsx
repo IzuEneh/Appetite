@@ -25,8 +25,8 @@ const prices = ["$", "$$", "$$$", "$$$$"];
 const Filter = ({ style }: { style?: ViewStyle }) => {
 	return (
 		<ScrollView style={[styles.container, style]}>
-			<FilterSection title="Prices" data={prices} orientation="row" />
-			<FilterSection title="Categories" data={categories} />
+			<FilterSection title="prices" data={prices} orientation="row" />
+			<FilterSection title="categories" data={categories} />
 		</ScrollView>
 	);
 };

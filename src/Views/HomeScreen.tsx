@@ -7,6 +7,10 @@ import { Business } from "../types";
 import FilterButton from "../Modules/Filter/components/FilterButton";
 import BottomSheetComponent from "../Modules/Common/components/BottomSheet";
 import FilterPage from "../Modules/Filter/components/FilterPage";
+import {
+	FilterProvider,
+	FilterState,
+} from "../Modules/Filter/api/FilterContext";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -18,6 +22,11 @@ function HomeScreen({ navigation }: NavProp) {
 
 	const handleDislike = (business: Business) => {
 		// console.log("Disliked: " + business.name);
+	};
+
+	const handleFilter = (filters: FilterState) => {
+		console.log(filters);
+		setIsFilterOpen(false);
 	};
 
 	return (
@@ -34,10 +43,12 @@ function HomeScreen({ navigation }: NavProp) {
 			</View> */}
 			<BottomSheetComponent isOpen={isFilterOpen}>
 				<View style={{ height: "100%", width: "100%" }}>
-					<FilterPage
-						onUpdateFilter={() => {}}
-						onCancel={() => setIsFilterOpen(false)}
-					/>
+					<FilterProvider>
+						<FilterPage
+							onUpdateFilter={handleFilter}
+							onCancel={() => setIsFilterOpen(false)}
+						/>
+					</FilterProvider>
 				</View>
 			</BottomSheetComponent>
 		</View>

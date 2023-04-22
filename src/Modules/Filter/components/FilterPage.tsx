@@ -1,25 +1,39 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
 import Filter from "./Filter";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { FilterState, useFilters } from "../api/FilterContext";
 
 type Props = {
-	onUpdateFilter: () => void;
+	onUpdateFilter: (filters: FilterState) => void;
 	onCancel: () => void;
 };
 
 const FilterPage = ({ onUpdateFilter, onCancel }: Props) => {
+	const filters = useFilters();
+
 	return (
 		<View style={styles.container}>
 			<Filter style={styles.filter} />
 			<View style={styles.formButtonContainer}>
-				<TouchableOpacity style={styles.formButton} onPress={onCancel}>
+				<TouchableHighlight
+					style={styles.formButton}
+					onPress={onCancel}
+					underlayColor="#e2e8f0"
+				>
 					<Text style={[styles.buttonText, styles.cancelText]}>Cancel</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={[styles.formButton, styles.updateButton]}>
+				</TouchableHighlight>
+				<TouchableHighlight
+					underlayColor="#7dd3fc"
+					style={[styles.formButton, styles.updateButton]}
+					onPress={() => {
+						console.log("pressed");
+						onUpdateFilter(filters);
+					}}
+				>
 					<Text style={[styles.buttonText, styles.updateText]}>Update</Text>
-				</TouchableOpacity>
+				</TouchableHighlight>
 			</View>
 		</View>
 	);
