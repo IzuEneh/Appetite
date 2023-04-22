@@ -3,8 +3,6 @@ import {
 	View,
 	StyleSheet,
 	ViewStyle,
-	FlatList,
-	ListRenderItem,
 	ActivityIndicator,
 	Text,
 } from "react-native";
@@ -12,16 +10,18 @@ import TinderCard from "react-tinder-card";
 
 import { Business } from "../../types";
 import { useRestaurants } from "../Common/hooks/useRestaurants";
+import { FilterState } from "../Filter/api/FilterContext";
 import Card from "./components/Card";
 
 type Props = {
 	onLike: (business: Business) => void;
 	onDislike: (business: Business) => void;
 	style?: ViewStyle;
+	filters: FilterState;
 };
 
-function CardSwiper({ onLike, onDislike, style }: Props) {
-	const { restaurants, error, loading, pop } = useRestaurants();
+function CardSwiper({ onLike, onDislike, style, filters }: Props) {
+	const { restaurants, error, loading, pop } = useRestaurants(filters);
 	const onSwipe = (direction: string, business: Business) => {
 		if (direction == "right") {
 			onLike(business);

@@ -11,11 +11,16 @@ import {
 	FilterProvider,
 	FilterState,
 } from "../Modules/Filter/api/FilterContext";
+import CardSwiper from "../Modules/CardSwiper/CardSwiper";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
 function HomeScreen({ navigation }: NavProp) {
 	const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+	const [filters, setFilters] = React.useState<FilterState>({
+		prices: [] as number[],
+		categories: [] as string[],
+	});
 	const handleLike = (business: Business) => {
 		navigation.navigate("Details", { id: business.id });
 	};
@@ -25,7 +30,7 @@ function HomeScreen({ navigation }: NavProp) {
 	};
 
 	const handleFilter = (filters: FilterState) => {
-		console.log(filters);
+		setFilters(filters);
 		setIsFilterOpen(false);
 	};
 
@@ -38,9 +43,13 @@ function HomeScreen({ navigation }: NavProp) {
 					}}
 				/>
 			</View>
-			{/* <View style={styles.container}>
-				<CardSwiper onLike={handleLike} onDislike={handleDislike} />
-			</View> */}
+			<View style={styles.container}>
+				<CardSwiper
+					onLike={handleLike}
+					onDislike={handleDislike}
+					filters={filters}
+				/>
+			</View>
 			<BottomSheetComponent isOpen={isFilterOpen}>
 				<View style={{ height: "100%", width: "100%" }}>
 					<FilterProvider>

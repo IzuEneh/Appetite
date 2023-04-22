@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
+import { FilterState } from "../../Filter/api/FilterContext";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";
@@ -12,7 +13,7 @@ const api_key =
 
 const headers = { authorization: `bearer ${api_key}` };
 
-const useRestaurants = () => {
+const useRestaurants = (filters: FilterState) => {
 	const location = useLocation();
 	const [restaurants, setRestaurants] = useState<Business[]>([]);
 	const [error, setError] = useState("");
@@ -35,7 +36,8 @@ const useRestaurants = () => {
 			const { latitude, longitude } = location;
 			const restaurants = await fetchBestRestaurants(
 				{ latitude, longitude },
-				offset
+				offset,
+				filters
 			);
 
 			setLoading(false);
@@ -57,7 +59,7 @@ const useRestaurants = () => {
 			}
 
 			const { latitude, longitude } = location;
-			fetchBestRestaurants({ latitude, longitude }, offset).then(
+			fetchBestRestaurants({ latitude, longitude }, offset, filters).then(
 				(newRestaurants) => {
 					const reversed = [...newRestaurants].reverse();
 					setRestaurants([...reversed, ...restaurants]);
@@ -72,7 +74,8 @@ const useRestaurants = () => {
 
 const fetchBestRestaurants = async (
 	{ latitude, longitude }: { latitude: number; longitude: number },
-	offset: number
+	offset: number,
+	{ prices, categories }: FilterState
 ) => {
 	try {
 		const { data } = await axios.get<SearchResponse>(
@@ -88,6 +91,8 @@ const fetchBestRestaurants = async (
 					open_now: true,
 					device_platform: "mobile-generic",
 					offset,
+					price: prices.join(","),
+					categories: categories.join(","),
 				},
 			}
 		);
