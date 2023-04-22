@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, ViewStyle } from "react-native";
 import FilterSection from "./FilterSection";
 
 const categories = [
@@ -22,9 +22,9 @@ const categories = [
 
 const prices = ["$", "$$", "$$$", "$$$$"];
 
-const Filter = () => {
+const Filter = ({ style }: { style?: ViewStyle }) => {
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView style={[styles.container, style]}>
 			<FilterSection title="Prices" data={prices} orientation="row" />
 			<FilterSection title="Categories" data={categories} />
 		</ScrollView>

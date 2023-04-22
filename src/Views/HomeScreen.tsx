@@ -1,13 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../App";
 import { Business } from "../types";
 import FilterButton from "../Modules/Filter/components/FilterButton";
 import BottomSheetComponent from "../Modules/Common/components/BottomSheet";
-import Filter from "../Modules/Filter/components/Filter";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import FilterPage from "../Modules/Filter/components/FilterPage";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -34,25 +33,11 @@ function HomeScreen({ navigation }: NavProp) {
 				<CardSwiper onLike={handleLike} onDislike={handleDislike} />
 			</View> */}
 			<BottomSheetComponent isOpen={isFilterOpen}>
-				<View
-					style={{
-						backgroundColor: "white",
-						// padding: 16,
-						paddingTop: 8,
-						paddingBottom: 64,
-						paddingHorizontal: 16,
-						height: "100%",
-					}}
-				>
-					<Filter />
-					<View style={styles.formButtonContainer}>
-						<TouchableOpacity style={styles.formButton}>
-							<Text style={styles.buttonText}>Cancel</Text>
-						</TouchableOpacity>
-						<TouchableOpacity style={styles.formButton}>
-							<Text style={styles.buttonText}>Update</Text>
-						</TouchableOpacity>
-					</View>
+				<View style={{ height: "100%", width: "100%" }}>
+					<FilterPage
+						onUpdateFilter={() => {}}
+						onCancel={() => setIsFilterOpen(false)}
+					/>
 				</View>
 			</BottomSheetComponent>
 		</View>
@@ -68,25 +53,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	buttons: {},
 	bottomSheet: {
 		height: 450,
 		backgroundColor: "white",
 		padding: 16,
-	},
-	formButtonContainer: {
-		flexDirection: "row",
-		justifyContent: "space-evenly",
-		gap: 10,
-	},
-	formButton: {
-		paddingVertical: 8,
-		paddingHorizontal: 16,
-		borderColor: "black",
-		borderWidth: 2,
-	},
-	buttonText: {
-		fontSize: 22,
 	},
 });
 
