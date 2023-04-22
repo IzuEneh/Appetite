@@ -7,7 +7,7 @@ import CardSwiper from "../Modules/CardSwiper/CardSwiper";
 import { Business } from "../types";
 import CategorySelector from "../Modules/Common/components/CategorySelector";
 import BottomSheetComponent from "../Modules/Common/components/BottomSheet";
-import CategoryForm from "../Modules/Common/components/CategoryForm";
+import Filter from "../Modules/Common/components/Filter";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
@@ -45,7 +45,7 @@ function HomeScreen({ navigation }: NavProp) {
 						height: "100%",
 					}}
 				>
-					<CategoryForm />
+					<Filter />
 					<View style={styles.formButtonContainer}>
 						<TouchableOpacity style={styles.formButton}>
 							<Text style={styles.buttonText}>Cancel</Text>
