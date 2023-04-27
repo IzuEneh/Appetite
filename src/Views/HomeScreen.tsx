@@ -35,15 +35,14 @@ function HomeScreen({ navigation }: NavProp) {
 	};
 
 	return (
-		<View style={[styles.container, styles.screenPadding]}>
+		<View style={[styles.container]}>
+			<FilterButton
+				style={styles.filterButton}
+				onChoose={() => {
+					setIsFilterOpen(!isFilterOpen);
+				}}
+			/>
 			<View>
-				<FilterButton
-					onChoose={(category) => {
-						setIsFilterOpen(!isFilterOpen);
-					}}
-				/>
-			</View>
-			<View style={styles.container}>
 				<CardSwiper
 					onLike={handleLike}
 					onDislike={handleDislike}
@@ -65,8 +64,10 @@ function HomeScreen({ navigation }: NavProp) {
 }
 
 const styles = StyleSheet.create({
-	screenPadding: {
-		paddingTop: 40,
+	filterButton: {
+		alignSelf: "flex-end",
+		marginBottom: 20,
+		marginRight: 16,
 	},
 	container: {
 		flex: 1,

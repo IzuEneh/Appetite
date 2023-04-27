@@ -4,6 +4,7 @@ import axios from "axios";
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
 import { FilterState } from "../../Filter/api/FilterContext";
+import { mockBusinesses } from "../../../mocks";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";
@@ -12,6 +13,7 @@ const api_key =
 	"SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
 
 const headers = { authorization: `bearer ${api_key}` };
+const fetchNum = 20;
 
 const useRestaurants = (filters: FilterState) => {
 	const location = useLocation();
@@ -24,36 +26,37 @@ const useRestaurants = (filters: FilterState) => {
 		setRestaurants((restaurants) => restaurants.slice(0, -1));
 	};
 
+	const fetchInitialData = async () => {
+		if (!location) {
+			return;
+		}
+
+		const { latitude, longitude } = location;
+		const restaurants = await fetchBestRestaurants(
+			{ latitude, longitude },
+			offset,
+			filters
+		);
+
+		if (restaurants.length === 0) {
+			setError("Unable To fetch restaurants");
+			return;
+		}
+
+		const reversed = [...restaurants].reverse();
+		setRestaurants(reversed);
+		setOffset((offset) => offset + fetchNum);
+	};
+
 	useEffect(() => {
 		setError("");
 		setLoading(true);
-
-		(async () => {
-			if (!location) {
-				return;
-			}
-
-			const { latitude, longitude } = location;
-			const restaurants = await fetchBestRestaurants(
-				{ latitude, longitude },
-				offset,
-				filters
-			);
-
-			setLoading(false);
-			if (restaurants.length === 0) {
-				setError("Unable To fetch restaurants");
-				return;
-			}
-
-			const reversed = [...restaurants].reverse();
-			setRestaurants(reversed);
-			setOffset((offset) => offset + 8);
-		})();
+		fetchInitialData();
+		setLoading(false);
 	}, [location]);
 
 	useEffect(() => {
-		if (restaurants.length < 4) {
+		if (restaurants.length < Math.floor(fetchNum / 3)) {
 			if (!location) {
 				return;
 			}
@@ -63,7 +66,7 @@ const useRestaurants = (filters: FilterState) => {
 				(newRestaurants) => {
 					const reversed = [...newRestaurants].reverse();
 					setRestaurants([...reversed, ...restaurants]);
-					setOffset((offset) => offset + 8);
+					setOffset((offset) => offset + fetchNum);
 				}
 			);
 		}
@@ -87,12 +90,12 @@ const fetchBestRestaurants = async (
 					longitude,
 					term: "restaurants",
 					sort_by: "rating",
-					limit: 8,
+					limit: fetchNum,
 					open_now: true,
 					device_platform: "mobile-generic",
 					offset,
-					price: prices.join(","),
-					categories: categories.join(","),
+					// price: prices.join(","),
+					// categories: categories.join(","),
 				},
 			}
 		);
