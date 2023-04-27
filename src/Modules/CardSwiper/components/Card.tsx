@@ -6,7 +6,6 @@ import {
 	Text,
 	ViewStyle,
 } from "react-native";
-import TinderCard from "react-tinder-card";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { Business } from "../../../types";

@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	View,
 	StyleSheet,
 	ViewStyle,
 	ActivityIndicator,
 	Text,
+	Pressable,
+	Button,
+	Dimensions,
 } from "react-native";
 import TinderCard from "react-tinder-card";
+import Swiper from "react-native-deck-swiper";
+// import Carousel
 
 import { Business } from "../../types";
 import { useRestaurants } from "../Common/hooks/useRestaurants";
@@ -52,7 +57,7 @@ function CardSwiper({ onLike, onDislike, style, filters }: Props) {
 				<TinderCard
 					key={business.id}
 					onSwipe={(direction) => onSwipe(direction, business)}
-					onCardLeftScreen={() => handleCardLeave(index)}
+					onCardLeftScreen={pop}
 					preventSwipe={["up", "down"]}
 				>
 					<Card business={business} style={styles.card} />
@@ -64,14 +69,14 @@ function CardSwiper({ onLike, onDislike, style, filters }: Props) {
 
 const styles = StyleSheet.create({
 	container: {
-		width: "90%",
-		height: 500,
+		height: 600,
+		width: Dimensions.get("window").width - 32,
 	},
 	card: {
 		position: "absolute",
 		backgroundColor: "#fff",
 		width: "100%",
-		height: 500,
+		height: 600,
 		borderRadius: 20,
 	},
 });
