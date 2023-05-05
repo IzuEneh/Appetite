@@ -26,7 +26,7 @@ const useRestaurants = (filters: FilterState) => {
 		setRestaurants((restaurants) => restaurants.slice(0, -1));
 	};
 
-	const fetchInitialData = async () => {
+	const fetchInitialData = async (filters: FilterState) => {
 		if (!location) {
 			return;
 		}
@@ -45,13 +45,12 @@ const useRestaurants = (filters: FilterState) => {
 
 		const reversed = [...restaurants].reverse();
 		setRestaurants(reversed);
-		setOffset((offset) => offset + fetchNum);
 	};
 
 	useEffect(() => {
 		setError("");
 		setLoading(true);
-		fetchInitialData();
+		fetchInitialData(filters);
 		setLoading(false);
 	}, [location]);
 
@@ -62,17 +61,22 @@ const useRestaurants = (filters: FilterState) => {
 			}
 
 			const { latitude, longitude } = location;
+			setOffset((offset) => offset + fetchNum);
 			fetchBestRestaurants({ latitude, longitude }, offset, filters).then(
 				(newRestaurants) => {
 					const reversed = [...newRestaurants].reverse();
 					setRestaurants([...reversed, ...restaurants]);
-					setOffset((offset) => offset + fetchNum);
 				}
 			);
 		}
 	}, [restaurants]);
 
-	return { restaurants, error, loading, pop };
+	const onUpdateFilters = async (newFilters: FilterState) => {
+		setOffset(0);
+		fetchInitialData(newFilters);
+	};
+
+	return { restaurants, error, loading, pop, onUpdateFilters };
 };
 
 const fetchBestRestaurants = async (
@@ -95,7 +99,7 @@ const fetchBestRestaurants = async (
 					device_platform: "mobile-generic",
 					offset,
 					// price: prices.join(","),
-					// categories: categories.join(","),
+					categories: "bars,french",
 				},
 			}
 		);

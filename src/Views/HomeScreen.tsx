@@ -30,6 +30,7 @@ function HomeScreen({ navigation }: NavProp) {
 	};
 
 	const handleFilter = (filters: FilterState) => {
+		console.log("handleFilter Called: " + JSON.stringify(filters));
 		setFilters(filters);
 		setIsFilterOpen(false);
 	};

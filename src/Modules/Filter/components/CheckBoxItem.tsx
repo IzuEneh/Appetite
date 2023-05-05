@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 	categoryName: {
 		fontSize: 16,
 		lineHeight: 24,
+		textTransform: "capitalize",
 	},
 });
 

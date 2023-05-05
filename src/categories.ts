@@ -1,13 +1,13 @@
 import { Business } from "./types";
 type CategorySection = {
 	letter: string;
-	categories: Business["categories"];
+	data: Business["categories"];
 };
 
 export const categories: CategorySection[] = [
 	{
 		letter: "a",
-		categories: [
+		data: [
 			{ alias: "afghani", title: "Afghan" },
 			{ alias: "african", title: "African" },
 			{ alias: "arabian", title: "Arabic" },
@@ -19,7 +19,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "b",
-		categories: [
+		data: [
 			{ alias: "bangladeshi", title: "Bangladeshi" },
 			{ alias: "basque", title: "Basque" },
 			{ alias: "bbq", title: "Barbeque" },
@@ -36,7 +36,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "c",
-		categories: [
+		data: [
 			{ alias: "cafes", title: "Cafes" },
 			{ alias: "cajun", title: "Cajun/Creole" },
 			{ alias: "cambodian", title: "Cambodian" },
@@ -53,17 +53,17 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "d",
-		categories: [
+		data: [
 			{ alias: "delis", title: "Delis" },
 			{ alias: "diners", title: "Diners" },
 			{ alias: "dinnertheater", title: "Dinner Theater" },
 			{ alias: "dumplings", title: "Dumplings" },
 		],
 	},
-	{ letter: "e", categories: [{ alias: "ethiopian", title: "Ethiopian" }] },
+	{ letter: "e", data: [{ alias: "ethiopian", title: "Ethiopian" }] },
 	{
 		letter: "f",
-		categories: [
+		data: [
 			{ alias: "filipino", title: "Filipino" },
 			{ alias: "fishnchips", title: "Fish & Chips" },
 			{ alias: "fondue", title: "Fondue" },
@@ -74,7 +74,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "g",
-		categories: [
+		data: [
 			{ alias: "gastropubs", title: "Gastropubs" },
 			{ alias: "german", title: "German" },
 			{ alias: "gluten_free", title: "Gluten-Free" },
@@ -84,7 +84,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "h",
-		categories: [
+		data: [
 			{ alias: "halal", title: "Halal" },
 			{ alias: "hawaiian", title: "Hawaiian" },
 			{ alias: "himalayan", title: "Himalayan/Nepalese" },
@@ -98,7 +98,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "i",
-		categories: [
+		data: [
 			{ alias: "iberian", title: "Iberian" },
 			{ alias: "indonesian", title: "Indonesian" },
 			{ alias: "indpak", title: "Indian" },
@@ -107,10 +107,10 @@ export const categories: CategorySection[] = [
 			{ alias: "italian", title: "Italian" },
 		],
 	},
-	{ letter: "j", categories: [{ alias: "japanese", title: "Japanese" }] },
+	{ letter: "j", data: [{ alias: "japanese", title: "Japanese" }] },
 	{
 		letter: "k",
-		categories: [
+		data: [
 			{ alias: "kebab", title: "Kebab" },
 			{ alias: "korean", title: "Korean" },
 			{ alias: "kosher", title: "Kosher" },
@@ -118,14 +118,14 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "l",
-		categories: [
+		data: [
 			{ alias: "laotian", title: "Laotian" },
 			{ alias: "latin", title: "Latin American" },
 		],
 	},
 	{
 		letter: "m",
-		categories: [
+		data: [
 			{ alias: "malaysian", title: "Malaysian" },
 			{ alias: "mediterranean", title: "Mediterranean" },
 			{ alias: "mexican", title: "Mexican" },
@@ -137,7 +137,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "n",
-		categories: [
+		data: [
 			{ alias: "newcanadian", title: "Canadian (New)" },
 			{ alias: "nicaraguan", title: "Nicaraguan" },
 			{ alias: "noodles", title: "Noodles" },
@@ -145,7 +145,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "p",
-		categories: [
+		data: [
 			{ alias: "pakistani", title: "Pakistani" },
 			{ alias: "panasian", title: "Pan Asian" },
 			{ alias: "persian", title: "Persian/Iranian" },
@@ -159,14 +159,14 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "r",
-		categories: [
+		data: [
 			{ alias: "raw_food", title: "Live/Raw Food" },
 			{ alias: "russian", title: "Russian" },
 		],
 	},
 	{
 		letter: "s",
-		categories: [
+		data: [
 			{ alias: "salad", title: "Salad" },
 			{ alias: "sandwiches", title: "Sandwiches" },
 			{ alias: "scandinavian", title: "Scandinavian" },
@@ -187,7 +187,7 @@ export const categories: CategorySection[] = [
 	},
 	{
 		letter: "t",
-		categories: [
+		data: [
 			{ alias: "taiwanese", title: "Taiwanese" },
 			{ alias: "tapas", title: "Tapas Bars" },
 			{ alias: "tapasmallplates", title: "Tapas/Small Plates" },
@@ -197,22 +197,22 @@ export const categories: CategorySection[] = [
 			{ alias: "turkish", title: "Turkish" },
 		],
 	},
-	{ letter: "u", categories: [{ alias: "ukrainian", title: "Ukrainian" }] },
+	{ letter: "u", data: [{ alias: "ukrainian", title: "Ukrainian" }] },
 	{
 		letter: "v",
-		categories: [
+		data: [
 			{ alias: "vegan", title: "Vegan" },
 			{ alias: "vegetarian", title: "Vegetarian" },
 			{ alias: "venison", title: "Venison" },
 			{ alias: "vietnamese", title: "Vietnamese" },
 		],
 	},
-	{ letter: "w", categories: [{ alias: "waffles", title: "Waffles" }] },
+	{ letter: "w", data: [{ alias: "waffles", title: "Waffles" }] },
 ];
 
 // let res = [];
 
-// categories.categories.forEach((cat) => {
+// data.data.forEach((cat) => {
 // 	if (cat.parent_aliases.includes("restaurants")) {
 // 		res.push({
 // 			alias: cat.alias,
@@ -221,7 +221,7 @@ export const categories: CategorySection[] = [
 // 	}
 // });
 
-// fs.writeFile("./categories-v2.txt", JSON.stringify(res), (err) => {
+// fs.writeFile("./data-v2.txt", JSON.stringify(res), (err) => {
 // 	if (err) {
 // 		console.error(err);
 // 	}
@@ -229,7 +229,7 @@ export const categories: CategorySection[] = [
 // });
 
 // let buckets = Array(26).fill(null);
-// categories.forEach((cat) => {
+// data.forEach((cat) => {
 // 	const index = cat.alias.charCodeAt(0) - 97;
 // 	if (buckets[index]) {
 // 		buckets[index].push(cat);
@@ -245,11 +245,11 @@ export const categories: CategorySection[] = [
 
 // 	return {
 // 		letter: bucket[0].alias.charAt(0),
-// 		categories: bucket,
+// 		data: bucket,
 // 	};
 // });
 
-// fs.writeFile("./categories-v3.js", JSON.stringify(res), (err) => {
+// fs.writeFile("./data-v3.js", JSON.stringify(res), (err) => {
 // 	if (err) {
 // 		console.error(err);
 // 	}
