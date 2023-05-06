@@ -11,7 +11,6 @@ type Props = {
 
 const FilterSection = ({ title, data, orientation }: Props) => {
 	const updateFilters = useFiltersDispatch();
-	const [selected, setSelected] = React.useState<string[]>([]);
 
 	return (
 		<View>
