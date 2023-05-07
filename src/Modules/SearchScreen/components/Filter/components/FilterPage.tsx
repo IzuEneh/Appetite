@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
 	},
 	filter: {
 		flex: 1,
-		width: "100%",
 	},
 });
 

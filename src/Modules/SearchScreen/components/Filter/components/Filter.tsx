@@ -1,20 +1,17 @@
 import React from "react";
 import {
 	StyleSheet,
-	ScrollView,
 	ViewStyle,
-	SectionList,
 	View,
 	Text,
 	TouchableOpacity,
-	TextInput,
-	TextInputProps,
+	Pressable,
 } from "react-native";
+import AutocompleteInput from "react-native-autocomplete-input";
+import { AntDesign } from "@expo/vector-icons";
+
 import FilterSection from "./FilterSection";
 import { categories } from "../../../../../categories";
-import CheckBoxItem from "./CheckBoxItem";
-import { FlatList } from "react-native-gesture-handler";
-import AutocompleteInput from "react-native-autocomplete-input";
 import { useFilters, useFiltersDispatch } from "../api/FilterContext";
 
 const prices = ["$", "$$", "$$$", "$$$$"];
@@ -89,10 +86,23 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 				}}
 			/>
 
-			<View>
+			<View style={styles.categoryContainer}>
 				{categories.map((category) => (
-					<View style={styles.category}>
+					<View style={styles.category} key={category}>
 						<Text>{category}</Text>
+						<Pressable
+							onPress={() => {
+								updateFilters({
+									type: "remove",
+									data: {
+										section: "categories",
+										payload: category,
+									},
+								});
+							}}
+						>
+							<AntDesign name="close" size={24} color="#082f49" />
+						</Pressable>
 					</View>
 				))}
 			</View>
@@ -102,7 +112,6 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		height: "75%",
 		gap: 10,
 	},
 	header: {
@@ -111,8 +120,20 @@ const styles = StyleSheet.create({
 	},
 	category: {
 		paddingHorizontal: 5,
-		paddingVertical: 2,
-		backgroundColor: "blue",
+		paddingVertical: 4,
+		backgroundColor: "#7dd3fc",
+		borderRadius: 10,
+		alignItems: "center",
+		justifyContent: "space-between",
+		borderWidth: 2,
+		borderColor: "#0284c7",
+		flexDirection: "row",
+		gap: 10,
+	},
+	categoryContainer: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		gap: 8,
 	},
 });
 
