@@ -1,19 +1,18 @@
 import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 
 interface Props {
 	isOpen: boolean;
+	onClose?: () => void;
 }
 
 const BottomSheetComponent = ({
 	children,
 	isOpen,
+	onClose,
 }: PropsWithChildren<Props>) => {
-	// const [isOpen, setIsOpen] = useState(false);
 	const bottomSheetRef = useRef<BottomSheet>(null);
-	// const animatedY = useRef(new Animated.Value(height)).current;
 	useEffect(() => {
 		if (isOpen) {
 			bottomSheetRef.current?.snapTo(0);
@@ -24,7 +23,6 @@ const BottomSheetComponent = ({
 	}, [isOpen]);
 
 	const handleClose = () => {
-		// setIsOpen(false);
 		bottomSheetRef.current?.snapTo(1);
 	};
 
@@ -43,6 +41,7 @@ const BottomSheetComponent = ({
 				snapPoints={[600, 0]}
 				borderRadius={10}
 				renderContent={renderContent}
+				onCloseEnd={onClose}
 			/>
 		</>
 	);

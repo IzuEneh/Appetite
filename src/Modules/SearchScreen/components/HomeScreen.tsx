@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../../../App";
@@ -9,6 +9,7 @@ import BottomSheetComponent from "../../Common/components/BottomSheet";
 import FilterPage from "./Filter/components/FilterPage";
 import { FilterProvider, FilterState } from "./Filter/api/FilterContext";
 import CardSwiper from "./CardSwiper/CardSwiper";
+import { Octicons } from "@expo/vector-icons";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -32,14 +33,11 @@ function HomeScreen({ navigation }: NavProp) {
 		setIsFilterOpen(false);
 	};
 
+	const toggleBottomSheet = () => setIsFilterOpen(!isFilterOpen);
+
 	return (
 		<View style={[styles.container]}>
-			<FilterButton
-				style={styles.filterButton}
-				onChoose={() => {
-					setIsFilterOpen(!isFilterOpen);
-				}}
-			/>
+			<FilterButton style={styles.filterButton} onChoose={toggleBottomSheet} />
 			<View>
 				<CardSwiper
 					onLike={handleLike}
@@ -47,8 +45,19 @@ function HomeScreen({ navigation }: NavProp) {
 					filters={filters}
 				/>
 			</View>
-			<BottomSheetComponent isOpen={isFilterOpen}>
-				<View style={{ height: "100%", width: "100%" }}>
+			<BottomSheetComponent
+				isOpen={isFilterOpen}
+				onClose={() => setIsFilterOpen(false)}
+			>
+				<View style={styles.bottomSheet}>
+					<Pressable onPress={toggleBottomSheet}>
+						<Octicons
+							style={styles.dragHandle}
+							name="horizontal-rule"
+							size={28}
+							color="grey"
+						/>
+					</Pressable>
 					<FilterProvider>
 						<FilterPage
 							onUpdateFilter={handleFilter}
@@ -73,9 +82,16 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	bottomSheet: {
-		height: 450,
+		height: "100%",
+		width: "100%",
 		backgroundColor: "white",
-		padding: 16,
+		paddingTop: 2,
+		paddingHorizontal: 16,
+		paddingBottom: 32,
+		alignItems: "center",
+	},
+	dragHandle: {
+		transform: [{ scaleX: 3 }],
 	},
 });
 
