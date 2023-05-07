@@ -1,10 +1,9 @@
-import { StyleSheet } from "react-native";
-import HomeScreen from "./src/Views/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
-import Details from "./src/Views/Details";
+import { DetailsScreen } from "./src/Modules/Details/";
+import { SearchScreen } from "./src/Modules/SearchScreen/";
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -22,17 +21,11 @@ export default function App() {
 			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen
 					name="Home"
-					component={HomeScreen}
+					component={SearchScreen}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name="Details" component={Details} />
+				<Stack.Screen name="Details" component={DetailsScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-});

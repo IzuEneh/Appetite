@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
-import { FilterState } from "../../Filter/api/FilterContext";
+import { FilterState } from "../../SearchScreen/components/Filter/api/FilterContext";
 import { mockBusinesses } from "../../../mocks";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";

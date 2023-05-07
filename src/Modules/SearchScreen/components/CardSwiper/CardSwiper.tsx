@@ -1,22 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
 	View,
 	StyleSheet,
 	ViewStyle,
 	ActivityIndicator,
 	Text,
-	Pressable,
-	Button,
 	Dimensions,
 } from "react-native";
 import TinderCard from "react-tinder-card";
-import Swiper from "react-native-deck-swiper";
-// import Carousel
 
-import { Business } from "../../types";
-import { useRestaurants } from "../Common/hooks/useRestaurants";
-import { FilterState } from "../Filter/api/FilterContext";
-import Card from "./components/Card";
+import { Business } from "../../../../types";
+import { useRestaurants } from "../../../Common/hooks/useRestaurants";
+import { FilterState } from "../../../SearchScreen/components/Filter/api/FilterContext";
+import Card from "./Card";
 
 type Props = {
 	onLike: (business: Business) => void;

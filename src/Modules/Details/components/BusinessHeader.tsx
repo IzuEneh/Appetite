@@ -1,9 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 import { Business } from "../../../types";
-import Rating from "../../Reviews/Rating";
+import Rating from "../../Common/components/Rating";
 import Categories from "./Categories";
 
 type Props = {

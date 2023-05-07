@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { Business } from "../../../types";
-import Categories from "../../Details/components/Categories";
-import Rating from "../../Reviews/Rating";
+import { Business } from "../../../../types";
+import Categories from "../../../Details/components/Categories";
+import Rating from "../../../Common/components/Rating";
 
 type Props = {
 	business: Business;

@@ -2,16 +2,13 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../../App";
-import { Business } from "../types";
-import FilterButton from "../Modules/Filter/components/FilterButton";
-import BottomSheetComponent from "../Modules/Common/components/BottomSheet";
-import FilterPage from "../Modules/Filter/components/FilterPage";
-import {
-	FilterProvider,
-	FilterState,
-} from "../Modules/Filter/api/FilterContext";
-import CardSwiper from "../Modules/CardSwiper/CardSwiper";
+import { RootStackParamList } from "../../../../App";
+import { Business } from "../../../types";
+import FilterButton from "./Filter/components/FilterButton";
+import BottomSheetComponent from "../../Common/components/BottomSheet";
+import FilterPage from "./Filter/components/FilterPage";
+import { FilterProvider, FilterState } from "./Filter/api/FilterContext";
+import CardSwiper from "./CardSwiper/CardSwiper";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 

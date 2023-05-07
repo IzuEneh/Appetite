@@ -11,7 +11,7 @@ import {
 	TextInputProps,
 } from "react-native";
 import FilterSection from "./FilterSection";
-import { categories } from "../../../categories";
+import { categories } from "../../../../../categories";
 import CheckBoxItem from "./CheckBoxItem";
 import { FlatList } from "react-native-gesture-handler";
 import AutocompleteInput from "react-native-autocomplete-input";

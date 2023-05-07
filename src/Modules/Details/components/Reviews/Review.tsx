@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, ViewStyle } from "react-native";
 
-import { LocalReview } from "../../types";
-import Rating from "./Rating";
+import { LocalReview } from "../../../../types";
+import Rating from "../../../Common/components/Rating";
 
 type Props = {
 	review: LocalReview;
