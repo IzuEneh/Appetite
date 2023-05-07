@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Dimensions } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../../../App";
@@ -14,6 +14,7 @@ import { Octicons } from "@expo/vector-icons";
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
 function HomeScreen({ navigation }: NavProp) {
+	const bottomSheetHeight = (Dimensions.get("screen").height / 4) * 3;
 	const [isFilterOpen, setIsFilterOpen] = React.useState(false);
 	const [filters, setFilters] = React.useState<FilterState>({
 		prices: [] as number[],
@@ -48,8 +49,9 @@ function HomeScreen({ navigation }: NavProp) {
 			<BottomSheetComponent
 				isOpen={isFilterOpen}
 				onClose={() => setIsFilterOpen(false)}
+				snapPoints={[bottomSheetHeight, 0]}
 			>
-				<View style={styles.bottomSheet}>
+				<View style={[styles.bottomSheet, { height: bottomSheetHeight }]}>
 					<Pressable onPress={toggleBottomSheet}>
 						<Octicons
 							style={styles.dragHandle}
@@ -82,7 +84,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	bottomSheet: {
-		height: "100%",
 		width: "100%",
 		backgroundColor: "white",
 		paddingTop: 2,
