@@ -57,6 +57,7 @@ function HomeScreen({ navigation }: NavProp) {
 					</Pressable>
 					<FilterProvider>
 						<FilterPage
+							filters={filters}
 							onUpdateFilter={handleFilter}
 							onCancel={() => setIsFilterOpen(false)}
 						/>

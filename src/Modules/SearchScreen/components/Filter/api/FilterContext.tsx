@@ -10,6 +10,11 @@ export type FilterState = {
 	categories: string[];
 };
 
+type Action = {
+	type: string;
+	data?: FilterAction;
+};
+
 type FilterAction = {
 	type: string;
 	data: {
@@ -24,9 +29,7 @@ const initialState = {
 };
 
 export const FilterContext = createContext(initialState);
-export const FilterDispatch = createContext<React.Dispatch<FilterAction>>(
-	() => {}
-);
+export const FilterDispatch = createContext<React.Dispatch<Action>>(() => {});
 
 export const FilterProvider = ({ children }: PropsWithChildren) => {
 	const [filters, dispatch] = useReducer(filterReducer, initialState);
@@ -48,7 +51,14 @@ export function useFiltersDispatch() {
 	return useContext(FilterDispatch);
 }
 
-const filterReducer = (state: FilterState, action: FilterAction) => {
+const filterReducer = (state: FilterState, action: Action) => {
+	switch (action.type) {
+		default:
+			return state;
+	}
+};
+
+const changeState = (state: FilterState, action: FilterAction): FilterState => {
 	switch (action.type) {
 		case "add":
 			return {

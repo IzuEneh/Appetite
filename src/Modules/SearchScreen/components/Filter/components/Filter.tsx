@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	StyleSheet,
 	ViewStyle,
@@ -12,21 +12,18 @@ import { AntDesign } from "@expo/vector-icons";
 
 import FilterSection from "./FilterSection";
 import { categories } from "../../../../../categories";
-import { useFilters, useFiltersDispatch } from "../api/FilterContext";
 
 const prices = ["$", "$$", "$$$", "$$$$"];
 const flatCategories = categories.flatMap((section) => section.data);
 
-const filterCategories = (query: string) => {
-	return flatCategories.filter((category) =>
-		category.alias.toLowerCase().includes(query.toLowerCase())
-	);
+type Props = {
+	style?: ViewStyle;
+	categories: string[];
+	onAdd: (data: string | number) => void;
+	onRemove: (data: string | number) => void;
 };
 
-const Filter = ({ style }: { style?: ViewStyle }) => {
-	const updateFilters = useFiltersDispatch();
-	const { categories } = useFilters();
-
+const Filter = ({ style, categories, onAdd, onRemove }: Props) => {
 	const [query, setQuery] = React.useState("");
 	const queriedCategories = React.useMemo(
 		() => filterCategories(query),
@@ -44,7 +41,13 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 
 	return (
 		<View style={[styles.container, style]}>
-			<FilterSection title="prices" data={prices} orientation="row" />
+			<FilterSection
+				title="prices"
+				data={prices}
+				orientation="row"
+				onAdd={onAdd}
+				onRemove={onRemove}
+			/>
 			<AutocompleteInput
 				placeholder="Enter a category..."
 				autoCorrect={false}
@@ -55,13 +58,7 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 				onSubmitEditing={() => {
 					if (queriedCategories.length === 1) {
 						setQuery("");
-						updateFilters({
-							type: "add",
-							data: {
-								section: "categories",
-								payload: queriedCategories[0].alias,
-							},
-						});
+						onAdd(queriedCategories[0].alias);
 					}
 				}}
 				flatListProps={{
@@ -71,13 +68,7 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 							key={item.alias}
 							onPress={() => {
 								setQuery("");
-								updateFilters({
-									type: "add",
-									data: {
-										section: "categories",
-										payload: item.alias,
-									},
-								});
+								onAdd(item.alias);
 							}}
 						>
 							<Text>{item.title}</Text>
@@ -92,13 +83,7 @@ const Filter = ({ style }: { style?: ViewStyle }) => {
 						<Text>{category}</Text>
 						<Pressable
 							onPress={() => {
-								updateFilters({
-									type: "remove",
-									data: {
-										section: "categories",
-										payload: category,
-									},
-								});
+								onRemove(category);
 							}}
 						>
 							<AntDesign name="close" size={24} color="#082f49" />
@@ -134,6 +119,24 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 		gap: 8,
+	},
+});
+
+const filterCategories = (query: string) => {
+	return flatCategories.filter((category) =>
+		category.alias.toLowerCase().includes(query.toLowerCase())
+	);
+};
+
+const applpyChange = (
+	type: "add" | "remove",
+	section: "prices" | "categories",
+	payload: string
+) => ({
+	type,
+	data: {
+		section,
+		payload,
 	},
 });
 

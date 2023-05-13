@@ -7,11 +7,17 @@ type Props = {
 	title: "prices" | "categories";
 	data: string[];
 	orientation?: "row" | "column";
+	onAdd: (data: string) => void;
+	onRemove: (data: string) => void;
 };
 
-const FilterSection = ({ title, data, orientation }: Props) => {
-	const updateFilters = useFiltersDispatch();
-
+const FilterSection = ({
+	title,
+	data,
+	orientation,
+	onAdd,
+	onRemove,
+}: Props) => {
 	return (
 		<View>
 			<Text style={styles.header}>{title}</Text>
@@ -22,21 +28,9 @@ const FilterSection = ({ title, data, orientation }: Props) => {
 						key={item}
 						onPress={(item, isSelected) => {
 							if (isSelected) {
-								updateFilters({
-									type: "add",
-									data: {
-										section: title,
-										payload: item,
-									},
-								});
+								onAdd(item);
 							} else {
-								updateFilters({
-									type: "remove",
-									data: {
-										section: title,
-										payload: item,
-									},
-								});
+								onRemove(item);
 							}
 						}}
 					/>
