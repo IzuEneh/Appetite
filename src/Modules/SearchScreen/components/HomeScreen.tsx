@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Pressable, Dimensions } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { LogBox } from "react-native";
 
 import { RootStackParamList } from "../../../../App";
 import { Business } from "../../../types";
@@ -10,6 +11,8 @@ import FilterPage from "./Filter/components/FilterPage";
 import { FilterProvider, FilterState } from "./Filter/api/FilterContext";
 import CardSwiper from "./CardSwiper/CardSwiper";
 import { Octicons } from "@expo/vector-icons";
+
+LogBox.ignoreAllLogs(true);
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
 
@@ -24,10 +27,6 @@ function HomeScreen({ navigation }: NavProp) {
 		navigation.navigate("Details", { id: business.id });
 	};
 
-	const handleDislike = (business: Business) => {
-		// console.log("Disliked: " + business.name);
-	};
-
 	const handleFilter = (filters: FilterState) => {
 		console.log("handleFilter Called: " + JSON.stringify(filters));
 		setFilters(filters);
@@ -40,11 +39,7 @@ function HomeScreen({ navigation }: NavProp) {
 		<View style={[styles.container]}>
 			<FilterButton style={styles.filterButton} onChoose={toggleBottomSheet} />
 			<View>
-				<CardSwiper
-					onLike={handleLike}
-					onDislike={handleDislike}
-					filters={filters}
-				/>
+				<CardSwiper onLike={handleLike} filters={filters} />
 			</View>
 			<BottomSheetComponent
 				isOpen={isFilterOpen}

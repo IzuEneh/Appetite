@@ -16,23 +16,16 @@ import Card from "./Card";
 
 type Props = {
 	onLike: (business: Business) => void;
-	onDislike: (business: Business) => void;
 	style?: ViewStyle;
 	filters: FilterState;
 };
 
-function CardSwiper({ onLike, onDislike, style, filters }: Props) {
+function CardSwiper({ onLike, style, filters }: Props) {
 	const { restaurants, error, loading, pop } = useRestaurants(filters);
 	const onSwipe = (direction: string, business: Business) => {
 		if (direction == "right") {
 			onLike(business);
-		} else {
-			onDislike(business);
 		}
-	};
-
-	const handleCardLeave = (index: number) => {
-		pop();
 	};
 
 	if (loading) {

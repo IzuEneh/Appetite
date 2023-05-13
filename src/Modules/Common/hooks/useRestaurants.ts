@@ -52,7 +52,7 @@ const useRestaurants = (filters: FilterState) => {
 		setLoading(true);
 		fetchInitialData(filters);
 		setLoading(false);
-	}, [location]);
+	}, [location, filters]);
 
 	useEffect(() => {
 		if (restaurants.length < Math.floor(fetchNum / 3)) {
@@ -84,6 +84,7 @@ const fetchBestRestaurants = async (
 	offset: number,
 	{ prices, categories }: FilterState
 ) => {
+	const filterCategories = categories.join(",");
 	try {
 		const { data } = await axios.get<SearchResponse>(
 			`${API_ENDPOINT}${SEARCH_PATH}`,
@@ -99,7 +100,7 @@ const fetchBestRestaurants = async (
 					device_platform: "mobile-generic",
 					offset,
 					// price: prices.join(","),
-					categories: "bars,french",
+					categories: filterCategories,
 				},
 			}
 		);
