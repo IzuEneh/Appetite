@@ -40,10 +40,6 @@ const FilterSection = ({
 };
 
 const styles = StyleSheet.create({
-	container: {
-		height: "75%",
-		gap: 10,
-	},
 	header: {
 		fontSize: 32,
 		backgroundColor: "#fff",
