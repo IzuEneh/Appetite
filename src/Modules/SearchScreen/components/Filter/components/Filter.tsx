@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	StyleSheet,
 	ViewStyle,
@@ -19,8 +19,8 @@ const flatCategories = categories.flatMap((section) => section.data);
 type Props = {
 	style?: ViewStyle;
 	categories: string[];
-	onAdd: (data: string | number) => void;
-	onRemove: (data: string | number) => void;
+	onAdd: (data: string) => void;
+	onRemove: (data: string) => void;
 };
 
 const Filter = ({ style, categories, onAdd, onRemove }: Props) => {

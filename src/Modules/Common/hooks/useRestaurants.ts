@@ -85,6 +85,7 @@ const fetchBestRestaurants = async (
 	{ prices, categories }: FilterState
 ) => {
 	const filterCategories = categories.join(",");
+	const priceOptions = prices.map((price) => price.length).join(",");
 	try {
 		const { data } = await axios.get<SearchResponse>(
 			`${API_ENDPOINT}${SEARCH_PATH}`,
@@ -99,7 +100,7 @@ const fetchBestRestaurants = async (
 					open_now: true,
 					device_platform: "mobile-generic",
 					offset,
-					// price: prices.join(","),
+					price: priceOptions.length > 0 ? priceOptions : undefined,
 					categories: filterCategories,
 				},
 			}

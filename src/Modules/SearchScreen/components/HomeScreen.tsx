@@ -8,7 +8,7 @@ import { Business } from "../../../types";
 import FilterButton from "./Filter/components/FilterButton";
 import BottomSheetComponent from "../../Common/components/BottomSheet";
 import FilterPage from "./Filter/components/FilterPage";
-import { FilterProvider, FilterState } from "./Filter/api/FilterContext";
+import { FilterState } from "./Filter/api/FilterContext";
 import CardSwiper from "./CardSwiper/CardSwiper";
 import { Octicons } from "@expo/vector-icons";
 
@@ -20,7 +20,7 @@ function HomeScreen({ navigation }: NavProp) {
 	const bottomSheetHeight = (Dimensions.get("screen").height / 4) * 3;
 	const [isFilterOpen, setIsFilterOpen] = React.useState(false);
 	const [filters, setFilters] = React.useState<FilterState>({
-		prices: [] as number[],
+		prices: [] as string[],
 		categories: [] as string[],
 	});
 	const handleLike = (business: Business) => {
@@ -55,13 +55,12 @@ function HomeScreen({ navigation }: NavProp) {
 							color="grey"
 						/>
 					</Pressable>
-					<FilterProvider>
-						<FilterPage
-							filters={filters}
-							onUpdateFilter={handleFilter}
-							onCancel={() => setIsFilterOpen(false)}
-						/>
-					</FilterProvider>
+
+					<FilterPage
+						filters={filters}
+						onUpdateFilter={handleFilter}
+						onCancel={() => setIsFilterOpen(false)}
+					/>
 				</View>
 			</BottomSheetComponent>
 		</View>

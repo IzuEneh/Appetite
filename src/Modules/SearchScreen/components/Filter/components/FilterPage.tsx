@@ -23,8 +23,8 @@ const FilterPage = ({ filters, onUpdateFilter, onCancel }: Props) => {
 		onCancel();
 	};
 
-	const handleAddItem = (item: number | string) => {
-		if (typeof item === "number") {
+	const handleAddItem = (item: string) => {
+		if (item.includes("$")) {
 			setTempFilters({
 				...tempFilters,
 				prices: tempFilters.prices.concat(item),
@@ -39,8 +39,8 @@ const FilterPage = ({ filters, onUpdateFilter, onCancel }: Props) => {
 		});
 	};
 
-	const handleRemoveItem = (item: number | string) => {
-		if (typeof item === "number") {
+	const handleRemoveItem = (item: string) => {
+		if (item.includes("$")) {
 			setTempFilters({
 				...tempFilters,
 				prices: tempFilters.prices.filter((price) => price != item),

@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { useFiltersDispatch } from "../api/FilterContext";
 import CheckBoxItem from "./CheckBoxItem";
 
 type Props = {
