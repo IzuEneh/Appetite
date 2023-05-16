@@ -20,7 +20,7 @@ function HomeScreen({ navigation }: NavProp) {
 	const bottomSheetHeight = (Dimensions.get("screen").height / 4) * 3;
 	const [isFilterOpen, setIsFilterOpen] = React.useState(false);
 	const [filters, setFilters] = React.useState<FilterState>({
-		prices: [] as string[],
+		prices: ["$", "$$", "$$$", "$$$$"],
 		categories: [] as string[],
 	});
 	const handleLike = (business: Business) => {

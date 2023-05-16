@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 
-import Filter from "./Filter";
 import { FilterState } from "../api/FilterContext";
 import ButtonBar from "./BottomBar";
+import CategoryFilter from "./CategoryFilter";
+import PriceFilter from "./FilterSection";
 
 type Props = {
 	filters: FilterState;
@@ -57,12 +58,18 @@ const FilterPage = ({ filters, onUpdateFilter, onCancel }: Props) => {
 
 	return (
 		<View style={styles.container}>
-			<Filter
-				style={styles.filter}
-				categories={tempFilters.categories}
-				onAdd={handleAddItem}
-				onRemove={handleRemoveItem}
-			/>
+			<View style={styles.filter}>
+				<PriceFilter
+					selected={tempFilters.prices}
+					onAdd={handleAddItem}
+					onRemove={handleRemoveItem}
+				/>
+				<CategoryFilter
+					categories={tempFilters.categories}
+					onAdd={handleAddItem}
+					onRemove={handleRemoveItem}
+				/>
+			</View>
 			<ButtonBar onCancel={handleCancel} onUpdate={handleUpdate} />
 		</View>
 	);
@@ -77,6 +84,7 @@ const styles = StyleSheet.create({
 	},
 	filter: {
 		flex: 1,
+		gap: 10,
 	},
 });
 

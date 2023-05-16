@@ -3,30 +3,25 @@ import { StyleSheet, View, Text } from "react-native";
 import CheckBoxItem from "./CheckBoxItem";
 
 type Props = {
-	title: "prices" | "categories";
-	data: string[];
-	orientation?: "row" | "column";
+	selected: string[];
 	onAdd: (data: string) => void;
 	onRemove: (data: string) => void;
 };
 
-const FilterSection = ({
-	title,
-	data,
-	orientation,
-	onAdd,
-	onRemove,
-}: Props) => {
+const prices = ["$", "$$", "$$$", "$$$$"];
+
+const PriceFilter = ({ onAdd, onRemove, selected }: Props) => {
 	return (
 		<View>
-			<Text style={styles.header}>{title}</Text>
-			<View style={{ flexDirection: orientation ?? undefined }}>
-				{data.map((item) => (
+			<Text style={styles.header}>prices</Text>
+			<View style={{ flexDirection: "row" }}>
+				{prices.map((item) => (
 					<CheckBoxItem
 						label={item}
 						key={item}
-						onPress={(item, isSelected) => {
-							if (isSelected) {
+						isSelected={selected.includes(item)}
+						onPress={() => {
+							if (!selected.includes(item)) {
 								onAdd(item);
 							} else {
 								onRemove(item);
@@ -47,4 +42,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default FilterSection;
+export default PriceFilter;

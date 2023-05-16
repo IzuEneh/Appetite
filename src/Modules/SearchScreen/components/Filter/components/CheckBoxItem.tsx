@@ -4,19 +4,13 @@ import Checkbox from "expo-checkbox";
 
 type Props = {
 	label: string;
-	onPress: (label: string, isSelected: boolean) => void;
+	onPress: () => void;
+	isSelected: boolean;
 };
 
-const CheckBoxItem = ({ label, onPress }: Props) => {
-	const [isSelected, setIsSelected] = useState(false);
+const CheckBoxItem = ({ label, onPress, isSelected }: Props) => {
 	return (
-		<TouchableOpacity
-			style={styles.checkbox}
-			onPress={() => {
-				setIsSelected(!isSelected);
-				onPress(label, !isSelected);
-			}}
-		>
+		<TouchableOpacity style={styles.checkbox} onPress={onPress}>
 			<Checkbox value={isSelected} />
 			<Text style={styles.categoryName}>{label}</Text>
 		</TouchableOpacity>
