@@ -8,7 +8,7 @@ import { Business } from "../../../types";
 import FilterButton from "./Filter/components/FilterButton";
 import BottomSheetComponent from "../../Common/components/BottomSheet";
 import FilterPage from "./Filter/components/FilterPage";
-import { FilterState } from "./Filter/api/FilterContext";
+import { FilterState } from "./Filter/api/FilterState";
 import CardSwiper from "./CardSwiper/CardSwiper";
 import { Octicons } from "@expo/vector-icons";
 

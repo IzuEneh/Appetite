@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import axios, { AxiosError } from "axios";
 
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
-import { FilterState } from "../../SearchScreen/components/Filter/api/FilterContext";
+import { FilterState } from "../../SearchScreen/components/Filter/api/FilterState";
 import { mockBusinesses } from "../../../mocks";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
@@ -15,8 +15,81 @@ const api_key =
 const headers = { authorization: `bearer ${api_key}` };
 const fetchNum = 20;
 
+type State = {
+	restaurants: Business[];
+	error: string;
+	loading: boolean;
+	offset: number;
+	initialFetch: boolean;
+};
+
+type Action = {
+	type: string;
+	payload?: any;
+};
+
+const initialState: State = {
+	restaurants: [],
+	error: "",
+	loading: false,
+	offset: 0,
+	initialFetch: false,
+};
+
+const reducer = (state: State, action: Action): State => {
+	switch (action.type) {
+		case "set_initial": {
+			if (!action.payload || !Array.isArray(action.payload)) {
+				return state;
+			}
+
+			return {
+				...state,
+				restaurants: action.payload,
+				error: "",
+				initialFetch: true,
+				loading: false,
+			};
+		}
+		case "fetch_initial": {
+			return {
+				...state,
+				loading: true,
+			};
+		}
+		case "set_error": {
+			if (!action.payload || typeof action.payload !== "string") {
+				return state;
+			}
+
+			return {
+				...state,
+				error: action.payload,
+				restaurants: [],
+				loading: false,
+			};
+		}
+		case "add_restaurants": {
+			if (!action.payload || !Array.isArray(action.payload)) {
+				return state;
+			}
+
+			const reversed = [...action.payload].reverse();
+			return {
+				...state,
+				loading: false,
+				error: "",
+				restaurants: [...reversed, ...state.restaurants],
+			};
+		}
+		default:
+			return state;
+	}
+};
+
 const useRestaurants = (filters: FilterState) => {
 	const location = useLocation();
+	const [state, dispatch] = useReducer(reducer, initialState);
 	const [restaurants, setRestaurants] = useState<Business[]>([]);
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);

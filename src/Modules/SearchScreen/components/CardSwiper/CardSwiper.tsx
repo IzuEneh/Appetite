@@ -11,7 +11,7 @@ import TinderCard from "react-tinder-card";
 
 import { Business } from "../../../../types";
 import { useRestaurants } from "../../../Common/hooks/useRestaurants";
-import { FilterState } from "../../../SearchScreen/components/Filter/api/FilterContext";
+import { FilterState } from "../Filter/api/FilterState";
 import Card from "./Card";
 
 type Props = {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 
-import { FilterState } from "../api/FilterContext";
+import { FilterState } from "../api/FilterState";
 import ButtonBar from "./BottomBar";
 import CategoryFilter from "./CategoryFilter";
 import PriceFilter from "./FilterSection";
