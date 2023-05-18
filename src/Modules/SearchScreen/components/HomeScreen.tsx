@@ -21,14 +21,13 @@ function HomeScreen({ navigation }: NavProp) {
 	const [isFilterOpen, setIsFilterOpen] = React.useState(false);
 	const [filters, setFilters] = React.useState<FilterState>({
 		prices: ["$", "$$", "$$$", "$$$$"],
-		categories: [] as string[],
+		categories: [],
 	});
 	const handleLike = (business: Business) => {
 		navigation.navigate("Details", { id: business.id });
 	};
 
 	const handleFilter = (filters: FilterState) => {
-		console.log("handleFilter Called: " + JSON.stringify(filters));
 		setFilters(filters);
 		setIsFilterOpen(false);
 	};
@@ -38,9 +37,7 @@ function HomeScreen({ navigation }: NavProp) {
 	return (
 		<View style={[styles.container]}>
 			<FilterButton style={styles.filterButton} onChoose={toggleBottomSheet} />
-			<View>
-				<CardSwiper onLike={handleLike} filters={filters} />
-			</View>
+			<CardSwiper onLike={handleLike} filters={filters} />
 			<BottomSheetComponent
 				isOpen={isFilterOpen}
 				onClose={() => setIsFilterOpen(false)}

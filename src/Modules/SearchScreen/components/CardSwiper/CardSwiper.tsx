@@ -30,14 +30,18 @@ function CardSwiper({ onLike, style, filters }: Props) {
 
 	if (loading) {
 		return (
-			<View style={styles.container}>
+			<View style={[styles.container, styles.centreAlign]}>
 				<ActivityIndicator size="large" />
 			</View>
 		);
 	}
 
 	if (error) {
-		return <Text>error</Text>; // TODO: Add No Location Component
+		return (
+			<View style={[styles.container, styles.centreAlign]}>
+				<Text style={styles.errorText}>{error}</Text>
+			</View>
+		); // TODO: Add No Location Component
 	}
 
 	return (
@@ -61,12 +65,20 @@ const styles = StyleSheet.create({
 		height: 600,
 		width: Dimensions.get("window").width - 32,
 	},
+	centreAlign: {
+		alignItems: "center",
+		justifyContent: "center",
+	},
 	card: {
 		position: "absolute",
 		backgroundColor: "#fff",
 		width: "100%",
 		height: 600,
 		borderRadius: 20,
+	},
+	errorText: {
+		fontSize: 18,
+		textTransform: "capitalize",
 	},
 });
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
@@ -32,30 +32,39 @@ const useRestaurants = (filters: FilterState) => {
 		}
 
 		const { latitude, longitude } = location;
-		const restaurants = await fetchBestRestaurants(
-			{ latitude, longitude },
-			offset,
-			filters
-		);
+		try {
+			const restaurants = await fetchBestRestaurants(
+				{ latitude, longitude },
+				offset,
+				filters
+			);
+			if (restaurants.length === 0) {
+				setError("Unable To fetch restaurants");
+				return;
+			}
 
-		if (restaurants.length === 0) {
-			setError("Unable To fetch restaurants");
-			return;
+			const reversed = [...restaurants].reverse();
+			setRestaurants(reversed);
+		} catch (err: any) {
+			const error = err.response.data.error;
+			setError(error.description);
+			setRestaurants([]);
 		}
-
-		const reversed = [...restaurants].reverse();
-		setRestaurants(reversed);
 	};
 
 	useEffect(() => {
-		setError("");
 		setLoading(true);
+		setOffset(0);
+		setError("");
 		fetchInitialData(filters);
 		setLoading(false);
 	}, [location, filters]);
 
 	useEffect(() => {
-		if (restaurants.length < Math.floor(fetchNum / 3)) {
+		if (
+			restaurants.length < Math.floor(fetchNum / 3) &&
+			restaurants.length > 0
+		) {
 			if (!location) {
 				return;
 			}
@@ -71,12 +80,7 @@ const useRestaurants = (filters: FilterState) => {
 		}
 	}, [restaurants]);
 
-	const onUpdateFilters = async (newFilters: FilterState) => {
-		setOffset(0);
-		fetchInitialData(newFilters);
-	};
-
-	return { restaurants, error, loading, pop, onUpdateFilters };
+	return { restaurants, error, loading, pop };
 };
 
 const fetchBestRestaurants = async (
@@ -86,30 +90,25 @@ const fetchBestRestaurants = async (
 ) => {
 	const filterCategories = categories.join(",");
 	const priceOptions = prices.map((price) => price.length).join(",");
-	try {
-		const { data } = await axios.get<SearchResponse>(
-			`${API_ENDPOINT}${SEARCH_PATH}`,
-			{
-				headers,
-				params: {
-					latitude,
-					longitude,
-					term: "restaurants",
-					sort_by: "rating",
-					limit: fetchNum,
-					open_now: true,
-					device_platform: "mobile-generic",
-					offset,
-					price: priceOptions.length > 0 ? priceOptions : undefined,
-					categories: filterCategories,
-				},
-			}
-		);
-		return data.businesses;
-	} catch (error) {
-		console.log(error);
-		return [];
-	}
+	const { data } = await axios.get<SearchResponse>(
+		`${API_ENDPOINT}${SEARCH_PATH}`,
+		{
+			headers,
+			params: {
+				latitude,
+				longitude,
+				term: "restaurants",
+				sort_by: "rating",
+				limit: fetchNum,
+				open_now: true,
+				device_platform: "mobile-generic",
+				offset,
+				price: priceOptions.length > 0 ? priceOptions : undefined,
+				categories: filterCategories,
+			},
+		}
+	);
+	return data.businesses;
 };
 
 export { useRestaurants };
