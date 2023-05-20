@@ -12,7 +12,7 @@ type Props = {
 function Review({ review, style }: Props) {
 	return (
 		<View style={[styles.container, style]}>
-			<Image source={{ uri: review.user.image_url }} style={styles.image} />
+			<Image source={getImage(review.user.image_url)} style={styles.image} />
 			<View style={styles.textContainer}>
 				<View style={styles.topBar}>
 					<Text style={styles.text}>{review.user.name}</Text>
@@ -50,5 +50,13 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 });
+
+const getImage = (url: string) => {
+	if (!url || url.length === 0) {
+		return require("../../../../assets/default-profile-pic.jpg");
+	}
+
+	return { uri: url };
+};
 
 export default Review;
