@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { FilterState } from "../api/FilterState";
 import ButtonBar from "./BottomBar";
 import CategoryFilter from "./CategoryFilter";
-import PriceFilter from "./FilterSection";
+import PriceFilter from "./PriceFilter";
 
 type Props = {
 	filters: FilterState;
@@ -24,50 +24,44 @@ const FilterPage = ({ filters, onUpdateFilter, onCancel }: Props) => {
 		onCancel();
 	};
 
-	const handleAddItem = (item: string) => {
-		if (item.includes("$")) {
-			setTempFilters({
-				...tempFilters,
-				prices: tempFilters.prices.concat(item),
-			});
+	const handleAddPrice = (item: string) => {
+		setTempFilters({
+			...tempFilters,
+			prices: tempFilters.prices.concat(item),
+		});
+	};
 
-			return;
-		}
+	const handleRemovePrice = (item: string) => {
+		setTempFilters({
+			...tempFilters,
+			prices: tempFilters.prices.filter((price) => price != item),
+		});
+	};
 
+	const handleAddCategory = (item: { alias: string; title: string }) =>
 		setTempFilters({
 			...tempFilters,
 			categories: tempFilters.categories.concat(item),
 		});
-	};
 
-	const handleRemoveItem = (item: string) => {
-		if (item.includes("$")) {
-			setTempFilters({
-				...tempFilters,
-				prices: tempFilters.prices.filter((price) => price != item),
-			});
-
-			return;
-		}
-
+	const handleRemoveCategory = (item: { alias: string; title: string }) =>
 		setTempFilters({
 			...tempFilters,
 			categories: tempFilters.categories.filter((cat) => cat != item),
 		});
-	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.filter}>
 				<PriceFilter
 					selected={tempFilters.prices}
-					onAdd={handleAddItem}
-					onRemove={handleRemoveItem}
+					onAdd={handleAddPrice}
+					onRemove={handleRemovePrice}
 				/>
 				<CategoryFilter
 					categories={tempFilters.categories}
-					onAdd={handleAddItem}
-					onRemove={handleRemoveItem}
+					onAdd={handleAddCategory}
+					onRemove={handleRemoveCategory}
 				/>
 			</View>
 			<ButtonBar onCancel={handleCancel} onUpdate={handleUpdate} />

@@ -1,3 +1,5 @@
+export type Category = { alias: string; title: string };
+
 export type Business = {
 	id: string;
 	alias: string;
@@ -6,7 +8,7 @@ export type Business = {
 	is_closed: boolean;
 	url: string;
 	review_count: number;
-	categories: Array<{ alias: string; title: string }>;
+	categories: Category[];
 	rating: string;
 	coordinates: {
 		latitude: string;

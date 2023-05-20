@@ -103,7 +103,7 @@ const fetchBestRestaurants = async (
 	offset: number,
 	{ prices, categories }: FilterState
 ) => {
-	const filterCategories = categories.join(",");
+	const filterCategories = categories.map((cat) => cat.alias).join(",");
 	const priceOptions = prices.map((price) => price.length).join(",");
 	const { data } = await axios.get<SearchResponse>(
 		`${API_ENDPOINT}${SEARCH_PATH}`,

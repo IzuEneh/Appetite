@@ -11,14 +11,15 @@ import AutocompleteInput from "react-native-autocomplete-input";
 import { AntDesign } from "@expo/vector-icons";
 
 import { categories } from "../../../../../categories";
+import { Category } from "../../../../../types";
 
 const flatCategories = categories.flatMap((section) => section.data);
 
 type Props = {
 	style?: ViewStyle;
-	categories: string[];
-	onAdd: (data: string) => void;
-	onRemove: (data: string) => void;
+	categories: Category[];
+	onAdd: (data: Category) => void;
+	onRemove: (data: Category) => void;
 };
 
 function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
@@ -50,7 +51,7 @@ function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
 				onSubmitEditing={() => {
 					if (queriedCategories.length === 1) {
 						setQuery("");
-						onAdd(queriedCategories[0].alias);
+						onAdd(queriedCategories[0]);
 					}
 				}}
 				flatListProps={{
@@ -60,7 +61,7 @@ function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
 							key={item.alias}
 							onPress={() => {
 								setQuery("");
-								onAdd(item.alias);
+								onAdd(item);
 							}}
 						>
 							<Text>{item.title}</Text>
@@ -71,8 +72,8 @@ function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
 
 			<View style={styles.categoryContainer}>
 				{categories.map((category) => (
-					<View style={styles.category} key={category}>
-						<Text>{category}</Text>
+					<View style={styles.category} key={category.alias}>
+						<Text>{category.title}</Text>
 						<Pressable
 							onPress={() => {
 								onRemove(category);

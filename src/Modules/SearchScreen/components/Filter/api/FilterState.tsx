@@ -1,4 +1,4 @@
 export type FilterState = {
 	prices: string[];
-	categories: string[];
+	categories: Array<{ alias: string; title: string }>;
 };
