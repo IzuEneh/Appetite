@@ -41,7 +41,7 @@ function CardSwiper({ onLike, style, filters }: Props) {
 			<View style={[styles.container, styles.centreAlign]}>
 				<Text style={styles.errorText}>{error}</Text>
 			</View>
-		); // TODO: Add No Location Component
+		);
 	}
 
 	return (
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		width: "100%",
 		height: 600,
-		borderRadius: 20,
 	},
 	errorText: {
 		fontSize: 18,

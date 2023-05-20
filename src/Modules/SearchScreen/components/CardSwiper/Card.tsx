@@ -19,57 +19,59 @@ type Props = {
 
 function Card({ business, style }: Props) {
 	return (
-		<View style={[style]}>
-			<ImageBackground
-				style={styles.cardImage}
-				source={{ uri: business.image_url }}
-				resizeMode="cover"
+		<ImageBackground
+			style={[styles.cardImage, style]}
+			source={{ uri: business.image_url }}
+			resizeMode="cover"
+		>
+			<LinearGradient
+				colors={["transparent", "black"]}
+				locations={[0.7, 1]}
+				style={styles.titleBackground}
 			>
-				<LinearGradient
-					colors={["transparent", "black"]}
-					style={styles.titleBackground}
-				>
-					<View style={styles.subTitleContainer}>
-						<Categories categories={business.categories} color="white" />
-						<Rating
-							rating={business.rating}
-							textStyle={styles.rating}
-							size={24}
-						/>
-					</View>
-					<Text style={styles.cardTitle}>{business.name}</Text>
-				</LinearGradient>
-			</ImageBackground>
-		</View>
+				<View style={styles.subTitleContainer}>
+					<Categories
+						categories={business.categories}
+						color="white"
+						style={styles.categories}
+					/>
+					<Rating
+						rating={business.rating}
+						textStyle={styles.rating}
+						size={24}
+					/>
+				</View>
+				<Text style={styles.cardTitle}>{business.name}</Text>
+			</LinearGradient>
+		</ImageBackground>
 	);
 }
 
 const styles = StyleSheet.create({
 	cardImage: {
-		width: "100%",
-		height: "100%",
 		overflow: "hidden",
 		borderRadius: 20,
-		flexDirection: "column-reverse",
-	},
-	cardTitle: {
-		color: "#fff",
-		fontSize: 24,
-		fontWeight: "bold",
 	},
 	titleBackground: {
-		width: "100%",
-		height: "33%",
+		flex: 1,
 		flexDirection: "column-reverse",
 		padding: 16,
 		gap: 8,
 	},
 	subTitleContainer: {
 		flexDirection: "row",
-		// flex: 1,
+	},
+	categories: {
+		flex: 1,
+		flexWrap: "wrap",
 	},
 	rating: {
 		color: "white",
+	},
+	cardTitle: {
+		color: "#fff",
+		fontSize: 24,
+		fontWeight: "bold",
 	},
 });
 

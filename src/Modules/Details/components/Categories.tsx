@@ -1,15 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ViewStyle } from "react-native";
 import { Business } from "../../../types";
 
 type Props = {
 	categories: Business["categories"];
 	color?: string;
+	style?: ViewStyle;
 };
 
-function Categories({ categories, color }: Props) {
+function Categories({ categories, color, style }: Props) {
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, style]}>
 			{categories.map((cat) => (
 				<View
 					style={[styles.category, { borderColor: color || "black" }]}
