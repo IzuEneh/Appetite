@@ -1,10 +1,9 @@
-import { useEffect, useReducer, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { useEffect, useReducer } from "react";
+import axios from "axios";
 
 import { Business, SearchResponse } from "../../../types";
 import { useLocation } from "./useLocation";
 import { FilterState } from "../../SearchScreen/components/Filter/api/FilterState";
-import { mockBusinesses } from "../../../mocks";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";
@@ -36,68 +35,12 @@ const initialState: State = {
 	initialFetch: false,
 };
 
-const reducer = (state: State, action: Action): State => {
-	switch (action.type) {
-		case "set_initial": {
-			if (!action.payload || !Array.isArray(action.payload)) {
-				return state;
-			}
-
-			return {
-				...state,
-				restaurants: action.payload,
-				error: "",
-				initialFetch: true,
-				loading: false,
-			};
-		}
-		case "fetch_initial": {
-			return {
-				...state,
-				loading: true,
-			};
-		}
-		case "set_error": {
-			if (!action.payload || typeof action.payload !== "string") {
-				return state;
-			}
-
-			return {
-				...state,
-				error: action.payload,
-				restaurants: [],
-				loading: false,
-			};
-		}
-		case "add_restaurants": {
-			if (!action.payload || !Array.isArray(action.payload)) {
-				return state;
-			}
-
-			const reversed = [...action.payload].reverse();
-			return {
-				...state,
-				loading: false,
-				error: "",
-				restaurants: [...reversed, ...state.restaurants],
-			};
-		}
-		default:
-			return state;
-	}
-};
-
 const useRestaurants = (filters: FilterState) => {
 	const location = useLocation();
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const [restaurants, setRestaurants] = useState<Business[]>([]);
-	const [error, setError] = useState("");
-	const [loading, setLoading] = useState(true);
-	const [offset, setOffset] = useState(0);
+	const [{ restaurants, error, offset, loading, initialFetch }, dispatch] =
+		useReducer(reducer, initialState);
 
-	const pop = () => {
-		setRestaurants((restaurants) => restaurants.slice(0, -1));
-	};
+	const pop = () => dispatch({ type: "pop" });
 
 	const fetchInitialData = async (filters: FilterState) => {
 		if (!location) {
@@ -111,43 +54,34 @@ const useRestaurants = (filters: FilterState) => {
 				offset,
 				filters
 			);
+
 			if (restaurants.length === 0) {
-				setError("Unable To fetch restaurants");
+				dispatch({ type: "set_error", payload: "Unable To fetch restaurants" });
 				return;
 			}
 
-			const reversed = [...restaurants].reverse();
-			setRestaurants(reversed);
+			dispatch({ type: "set_initial", payload: restaurants });
 		} catch (err: any) {
 			const error = err.response.data.error;
-			setError(error.description);
-			setRestaurants([]);
+			dispatch({ type: "set_error", payload: error.description });
 		}
 	};
 
 	useEffect(() => {
-		setLoading(true);
-		setOffset(0);
-		setError("");
+		dispatch({ type: "start_fetch" });
 		fetchInitialData(filters);
-		setLoading(false);
 	}, [location, filters]);
 
 	useEffect(() => {
-		if (
-			restaurants.length < Math.floor(fetchNum / 3) &&
-			restaurants.length > 0
-		) {
+		if (restaurants.length < Math.floor(fetchNum / 3) && initialFetch) {
 			if (!location) {
 				return;
 			}
 
 			const { latitude, longitude } = location;
-			setOffset((offset) => offset + fetchNum);
 			fetchBestRestaurants({ latitude, longitude }, offset, filters).then(
 				(newRestaurants) => {
-					const reversed = [...newRestaurants].reverse();
-					setRestaurants([...reversed, ...restaurants]);
+					dispatch({ type: "add_restaurants", payload: newRestaurants });
 				}
 			);
 		}
@@ -182,6 +116,66 @@ const fetchBestRestaurants = async (
 		}
 	);
 	return data.businesses;
+};
+
+const reducer = (state: State, action: Action): State => {
+	switch (action.type) {
+		case "set_initial": {
+			if (!action.payload || !Array.isArray(action.payload)) {
+				return state;
+			}
+
+			const reversed = [...action.payload].reverse();
+			return {
+				...state,
+				restaurants: reversed,
+				error: "",
+				initialFetch: true,
+				loading: false,
+				offset: 0,
+			};
+		}
+		case "start_fetch": {
+			return {
+				...state,
+				loading: true,
+			};
+		}
+		case "set_error": {
+			if (!action.payload || typeof action.payload !== "string") {
+				return state;
+			}
+
+			return {
+				...state,
+				error: action.payload,
+				restaurants: [],
+				loading: false,
+			};
+		}
+		case "add_restaurants": {
+			if (!action.payload || !Array.isArray(action.payload)) {
+				return state;
+			}
+
+			const reversed = [...action.payload].reverse();
+			return {
+				...state,
+				loading: false,
+				error: "",
+				restaurants: [...reversed, ...state.restaurants],
+				offset: state.offset + fetchNum,
+			};
+		}
+		case "pop": {
+			return {
+				...state,
+				restaurants: state.restaurants.slice(0, -1),
+			};
+		}
+		default:
+			return state;
+	}
 };
 
 export { useRestaurants };
