@@ -56,7 +56,11 @@ const useRestaurants = (filters: FilterState) => {
 			);
 
 			if (restaurants.length === 0) {
-				dispatch({ type: "set_error", payload: "Unable To fetch restaurants" });
+				dispatch({
+					type: "set_error",
+					payload:
+						"Unable to find any restaurants. Please adjust filters and try again.",
+				});
 				return;
 			}
 
@@ -73,7 +77,11 @@ const useRestaurants = (filters: FilterState) => {
 	}, [location, filters]);
 
 	useEffect(() => {
-		if (restaurants.length < Math.floor(fetchNum / 3) && initialFetch) {
+		if (
+			restaurants.length < Math.floor(fetchNum / 3) &&
+			initialFetch &&
+			!error
+		) {
 			if (!location) {
 				return;
 			}
@@ -132,13 +140,13 @@ const reducer = (state: State, action: Action): State => {
 				error: "",
 				initialFetch: true,
 				loading: false,
-				offset: 0,
 			};
 		}
 		case "start_fetch": {
 			return {
 				...state,
 				loading: true,
+				offset: 0,
 			};
 		}
 		case "set_error": {
