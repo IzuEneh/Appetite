@@ -12,7 +12,7 @@ const prices = ["$", "$$", "$$$", "$$$$"];
 
 const PriceFilter = ({ onAdd, onRemove, selected }: Props) => {
 	return (
-		<View>
+		<View style={styles.container}>
 			<Text style={styles.header}>prices</Text>
 			<View style={{ flexDirection: "row" }}>
 				{prices.map((item) => (
@@ -35,6 +35,9 @@ const PriceFilter = ({ onAdd, onRemove, selected }: Props) => {
 };
 
 const styles = StyleSheet.create({
+	container: {
+		width: "100%",
+	},
 	header: {
 		fontSize: 32,
 		backgroundColor: "#fff",

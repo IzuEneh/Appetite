@@ -11,7 +11,7 @@ type Props = {
 const CheckBoxItem = ({ label, onPress, isSelected }: Props) => {
 	return (
 		<TouchableOpacity style={styles.checkbox} onPress={onPress}>
-			<Checkbox value={isSelected} />
+			<Checkbox value={isSelected} color="#0ea5e9" />
 			<Text style={styles.categoryName}>{label}</Text>
 		</TouchableOpacity>
 	);

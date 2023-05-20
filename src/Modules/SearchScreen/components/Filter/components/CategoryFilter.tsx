@@ -41,7 +41,9 @@ function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
 
 	return (
 		<View style={[styles.container, style]}>
+			<Text style={styles.header}>categories</Text>
 			<AutocompleteInput
+				style={styles.input}
 				placeholder="Enter a category..."
 				autoCorrect={false}
 				value={query}
@@ -90,11 +92,17 @@ function CategoryFilter({ style, categories, onAdd, onRemove }: Props) {
 
 const styles = StyleSheet.create({
 	container: {
-		gap: 10,
+		flex: 1,
+		width: "100%",
 	},
 	header: {
 		fontSize: 32,
 		backgroundColor: "#fff",
+		textTransform: "capitalize",
+		marginBottom: 5,
+	},
+	input: {
+		width: "100%",
 	},
 	category: {
 		paddingHorizontal: 5,
@@ -112,6 +120,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 		gap: 8,
+		marginTop: 10,
 	},
 });
 

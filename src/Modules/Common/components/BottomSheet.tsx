@@ -20,7 +20,6 @@ const BottomSheetComponent = ({
 		} else {
 			bottomSheetRef.current?.snapTo(1);
 		}
-		// console.log(isOpen);
 	}, [isOpen]);
 
 	const renderContent = () => <>{children}</>;

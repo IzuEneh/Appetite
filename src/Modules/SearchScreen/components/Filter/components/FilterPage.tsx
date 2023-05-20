@@ -75,10 +75,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
+		width: "100%",
+		paddingHorizontal: 8,
 	},
 	filter: {
 		flex: 1,
-		gap: 10,
+		gap: 16,
+		alignItems: "center",
+		width: "100%",
 	},
 });
 
