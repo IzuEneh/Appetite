@@ -16,7 +16,7 @@ function BusinessHeader({ business }: Props) {
 				<Text style={styles.title}>{business.name}</Text>
 				<Rating rating={business.rating} size={24} textStyle={styles.rating} />
 			</View>
-			<Categories categories={business.categories} />
+			<Categories categories={business.categories} style={styles.categories} />
 			{business.price ? (
 				<Text style={styles.price}>Price: {business.price}</Text>
 			) : null}
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
 	},
 	price: {
 		fontSize: 16,
+	},
+	categories: {
+		flex: 1,
+		flexWrap: "wrap",
 	},
 });
 
