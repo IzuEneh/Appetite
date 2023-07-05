@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Business, LocalReview, RemoteReview } from "../../../types";
+import { Business, LocalReview, RemoteReview } from "../api/types";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const BUSINESS_PATH = "/businesses/";

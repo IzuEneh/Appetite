@@ -1,4 +1,4 @@
-import { Business } from "./types";
+import { Business } from "./Modules/Common/api/types";
 
 export const mockBusinesses: Business[] = [
 	{

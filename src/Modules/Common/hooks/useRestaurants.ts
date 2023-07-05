@@ -1,9 +1,9 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
 
-import { Business, SearchResponse } from "../../../types";
+import { Business, SearchResponse } from "../api/types";
 import { useLocation } from "./useLocation";
-import { FilterState } from "../../SearchScreen/components/Filter/api/FilterState";
+import { FilterState } from "Modules/SearchScreen/components/Filter/api/FilterState";
 
 const API_ENDPOINT = "https://api.yelp.com/v3";
 const SEARCH_PATH = "/businesses/search";

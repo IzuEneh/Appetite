@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import TinderCard from "react-tinder-card";
 
-import { Business } from "../../../../types";
+import { Business } from "../../../Common/api/types";
 import { useRestaurants } from "../../../Common/hooks/useRestaurants";
 import { FilterState } from "../Filter/api/FilterState";
 import Card from "./Card";

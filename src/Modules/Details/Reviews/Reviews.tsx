@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, ViewStyle } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
-import { RemoteReview } from "../../../../types";
+import { RemoteReview } from "Modules/Common/api/types";
 import Review from "./Review";
 
 type Props = {

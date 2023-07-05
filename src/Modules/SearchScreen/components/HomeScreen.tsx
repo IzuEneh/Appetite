@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LogBox } from "react-native";
 
 import { RootStackParamList } from "../../../../App";
-import { Business } from "../../../types";
+import { Business } from "../../Common/api/types";
 import FilterButton from "./Filter/components/FilterButton";
 import BottomSheetComponent from "../../Common/components/BottomSheet";
 import FilterPage from "./Filter/components/FilterPage";

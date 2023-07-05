@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, ViewStyle } from "react-native";
 
-import { LocalReview } from "../../../../types";
-import Rating from "../../../Common/components/Rating";
+import { LocalReview } from "Modules/Common/api/types";
+import Rating from "Modules/Common/components/Rating";
 
 type Props = {
 	review: LocalReview;
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 const getImage = (url: string) => {
 	if (!url || url.length === 0) {
-		return require("../../../../assets/default-profile-pic.jpg");
+		return require("../../../assets/default-profile-pic.jpg");
 	}
 
 	return { uri: url };

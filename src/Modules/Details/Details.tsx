@@ -2,12 +2,14 @@ import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScrollView, View, StyleSheet, ActivityIndicator } from "react-native";
 
-import { RootStackParamList } from "../../../../App";
-import BottomBar from "./BottomBar/BottomBar";
-import Reviews from "./Reviews/Reviews";
-import BusinessHeader from "./BusinessHeader";
-import ImageSlider from "./ImageSlider";
-import { useRestaurant } from "../../Common/hooks/useRestaurant";
+import { RootStackParamList } from "App";
+import {
+	BottomBar,
+	Reviews,
+	BusinessHeader,
+	ImageSlider,
+} from "Modules/Details/";
+import { useRestaurant } from "Modules/Common/hooks/";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 

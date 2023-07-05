@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
-import { DetailsScreen } from "./src/Modules/Details/";
-import { SearchScreen } from "./src/Modules/SearchScreen/";
+import Details from "Modules/Details/";
+import { SearchScreen } from "Modules/SearchScreen/";
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -24,7 +24,7 @@ export default function App() {
 					component={SearchScreen}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name="Details" component={DetailsScreen} />
+				<Stack.Screen name="Details" component={Details} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

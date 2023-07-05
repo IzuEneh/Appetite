@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, ViewStyle } from "react-native";
-import { Business } from "../../../types";
+import { Business } from "Modules/Common/api/types";
 
 type Props = {
 	categories: Business["categories"];

@@ -11,7 +11,7 @@ import AutocompleteInput from "react-native-autocomplete-input";
 import { AntDesign } from "@expo/vector-icons";
 
 import { categories } from "../../../../../categories";
-import { Category } from "../../../../../types";
+import { Category } from "../../../../Common/api/types";
 
 const flatCategories = categories.flatMap((section) => section.data);
 
