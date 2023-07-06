@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { Business } from "../../../Common/api/types";
+import { Business } from "Modules/Common/api/types";
 import { Categories } from "Modules/Details/";
-import Rating from "../../../Common/components/Rating";
+import Rating from "Modules/Common/components/Rating";
 
 type Props = {
 	business: Business;
@@ -21,7 +21,7 @@ function Card({ business, style }: Props) {
 	return (
 		<ImageBackground
 			style={[styles.cardImage, style]}
-			source={{ uri: business.image_url }}
+			source={getImage(business.image_url)}
 			resizeMode="cover"
 		>
 			<LinearGradient
@@ -74,5 +74,13 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 });
+
+const getImage = (url: string) => {
+	if (!url || url.length === 0) {
+		return require("../../../../assets/default-profile-pic.jpg");
+	}
+
+	return { uri: url };
+};
 
 export default Card;
