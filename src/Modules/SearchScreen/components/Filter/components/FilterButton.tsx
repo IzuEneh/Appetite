@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, ViewStyle } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 

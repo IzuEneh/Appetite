@@ -1,4 +1,4 @@
-import { Business } from "./Modules/Common/api/types";
+import { Business } from "../../../../Common/api/types";
 type CategorySection = {
 	letter: string;
 	data: Business["categories"];

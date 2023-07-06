@@ -2,15 +2,15 @@ import React from "react";
 import { View, StyleSheet, Pressable, Dimensions } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LogBox } from "react-native";
+import { Octicons } from "@expo/vector-icons";
 
-import { RootStackParamList } from "../../../../App";
-import { Business } from "../../Common/api/types";
+import { RootStackParamList } from "App";
+import { Business } from "Modules/Common/api/types";
+import BottomSheetComponent from "Modules/Common/components/BottomSheet";
 import FilterButton from "./Filter/components/FilterButton";
-import BottomSheetComponent from "../../Common/components/BottomSheet";
 import FilterPage from "./Filter/components/FilterPage";
 import { FilterState } from "./Filter/api/FilterState";
 import CardSwiper from "./CardSwiper/CardSwiper";
-import { Octicons } from "@expo/vector-icons";
 
 LogBox.ignoreAllLogs(true);
 

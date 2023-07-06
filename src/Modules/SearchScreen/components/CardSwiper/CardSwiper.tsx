@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import TinderCard from "react-tinder-card";
 
-import { Business } from "../../../Common/api/types";
-import { useRestaurants } from "../../../Common/hooks/useRestaurants";
+import { Business } from "Modules/Common/api/types";
+import { useRestaurants } from "Modules/Common/hooks/useRestaurants";
 import { FilterState } from "../Filter/api/FilterState";
 import Card from "./Card";
 
