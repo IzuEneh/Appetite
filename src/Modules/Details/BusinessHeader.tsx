@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 import { Business } from "Modules/Common/api/types";
 import Rating from "Modules/Common/components/Rating";
-import { Categories } from "Modules/Details/";
+import Categories from "./Categories";
 
 type Props = {
 	business: Business;
