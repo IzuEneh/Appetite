@@ -5,18 +5,18 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SearchScreen } from "Modules/SearchScreen";
 
 export type DrawerParamList = {
-	Home: undefined;
+	Search: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function HomeScreen() {
 	return (
-		<Drawer.Navigator initialRouteName="Home">
+		<Drawer.Navigator initialRouteName="Search">
 			<Drawer.Screen
-				name="Home"
+				name="Search"
 				component={SearchScreen}
-				// options={{ headerShown: false }}
+				options={{ headerShown: false }}
 			/>
 		</Drawer.Navigator>
 	);

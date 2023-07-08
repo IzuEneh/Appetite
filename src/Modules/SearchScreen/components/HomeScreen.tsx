@@ -1,20 +1,23 @@
 import React from "react";
 import { View, StyleSheet, Pressable, Dimensions } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { LogBox } from "react-native";
+import type { DrawerScreenProps } from "@react-navigation/drawer";
 import { Octicons } from "@expo/vector-icons";
 
 import { RootStackParamList } from "App";
+import { DrawerParamList } from "Modules/Drawer/Drawer";
 import { Business } from "Modules/Common/api/types";
 import BottomSheetComponent from "Modules/Common/components/BottomSheet";
-import FilterButton from "./Filter/components/FilterButton";
 import FilterPage from "./Filter/components/FilterPage";
 import { FilterState } from "./Filter/api/FilterState";
 import CardSwiper from "./CardSwiper/CardSwiper";
+import Header from "./Header";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-LogBox.ignoreAllLogs(true);
-
-type NavProp = NativeStackScreenProps<RootStackParamList, "Home">;
+type NavProp = CompositeScreenProps<
+	DrawerScreenProps<DrawerParamList, "Search">,
+	NativeStackScreenProps<RootStackParamList>
+>;
 
 function HomeScreen({ navigation }: NavProp) {
 	const bottomSheetHeight = (Dimensions.get("screen").height / 4) * 3;
@@ -36,7 +39,11 @@ function HomeScreen({ navigation }: NavProp) {
 
 	return (
 		<View style={[styles.container]}>
-			<FilterButton style={styles.filterButton} onChoose={toggleBottomSheet} />
+			<Header
+				onFilter={toggleBottomSheet}
+				onSideBar={navigation.toggleDrawer}
+				style={styles.header}
+			/>
 			<CardSwiper onLike={handleLike} filters={filters} />
 			<BottomSheetComponent
 				isOpen={isFilterOpen}
@@ -65,10 +72,8 @@ function HomeScreen({ navigation }: NavProp) {
 }
 
 const styles = StyleSheet.create({
-	filterButton: {
-		alignSelf: "flex-end",
+	header: {
 		marginBottom: 20,
-		marginRight: 16,
 	},
 	container: {
 		flex: 1,
