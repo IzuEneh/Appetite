@@ -1,9 +1,11 @@
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
 import Details from "Modules/Details/";
 import { SearchScreen } from "Modules/SearchScreen/";
+import HomeScreen from "Modules/Drawer/Drawer";
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -21,7 +23,7 @@ export default function App() {
 			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen
 					name="Home"
-					component={SearchScreen}
+					component={HomeScreen}
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen name="Details" component={Details} />
