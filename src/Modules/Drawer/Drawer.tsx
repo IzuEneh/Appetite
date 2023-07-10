@@ -1,11 +1,11 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SearchScreen } from "Modules/SearchScreen";
+import ListView from "./ListView";
 
 export type DrawerParamList = {
 	Search: undefined;
+	Saved: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -18,6 +18,7 @@ function HomeScreen() {
 				component={SearchScreen}
 				options={{ headerShown: false }}
 			/>
+			<Drawer.Screen name="Saved" component={ListView} />
 		</Drawer.Navigator>
 	);
 }

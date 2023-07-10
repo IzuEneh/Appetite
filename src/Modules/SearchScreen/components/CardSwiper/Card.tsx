@@ -18,6 +18,12 @@ type Props = {
 };
 
 function Card({ business, style }: Props) {
+	// console.log({
+	// 	id: business.id,
+	// 	name: business.name,
+	// 	image_url: business.image_url,
+	// 	categories: business.categories,
+	// });
 	return (
 		<ImageBackground
 			style={[styles.cardImage, style]}
