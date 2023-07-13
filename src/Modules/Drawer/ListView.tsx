@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import RestaurantTile from "./RestaurantTile";
 
@@ -50,13 +50,21 @@ const DATA = [
 
 function ListView() {
 	return (
-		<View>
+		<View style={{ paddingHorizontal: 16 }}>
 			<FlatList
 				data={DATA}
 				renderItem={({ item }) => <RestaurantTile restaurant={item} />}
+				ItemSeparatorComponent={() => <View style={styles.separator} />}
 			/>
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	separator: {
+		borderColor: "#94a3b8",
+		borderWidth: 1,
+	},
+});
 
 export default ListView;
