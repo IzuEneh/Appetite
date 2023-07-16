@@ -2,6 +2,11 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import RestaurantTile from "./RestaurantTile";
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "App";
+import { DrawerParamList } from "./Drawer";
 
 const DATA = [
 	{
@@ -48,12 +53,26 @@ const DATA = [
 	},
 ];
 
-function ListView() {
+type NavProp = CompositeScreenProps<
+	DrawerScreenProps<DrawerParamList, "Saved">,
+	NativeStackScreenProps<RootStackParamList>
+>;
+
+function ListView({ navigation }: NavProp) {
+	const handlePress = (id: string) => {
+		navigation.navigate("Details", { id });
+	};
+
 	return (
 		<View style={{ paddingHorizontal: 16 }}>
 			<FlatList
 				data={DATA}
-				renderItem={({ item }) => <RestaurantTile restaurant={item} />}
+				renderItem={({ item }) => (
+					<RestaurantTile
+						restaurant={item}
+						onPress={() => handlePress(item.id)}
+					/>
+				)}
 				ItemSeparatorComponent={() => <View style={styles.separator} />}
 			/>
 		</View>

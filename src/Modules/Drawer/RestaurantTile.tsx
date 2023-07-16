@@ -1,7 +1,8 @@
 import { Category } from "Modules/Common/api/types";
 import { Categories } from "Modules/Details";
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 type SavedRestaurant = {
 	id: string;
@@ -12,23 +13,28 @@ type SavedRestaurant = {
 
 type Props = {
 	restaurant: SavedRestaurant;
+	onPress: () => void;
 };
 
-function RestaurantTile({ restaurant }: Props) {
+function RestaurantTile({ restaurant, onPress }: Props) {
 	return (
-		<View style={styles.container}>
-			<Image source={getImage(restaurant.image_url)} style={styles.image} />
-			<View style={styles.textContainer}>
-				{/**Title and category tiles */}
-				<Text style={styles.title}>{restaurant.name}</Text>
-				<Categories categories={restaurant.categories} />
+		<TouchableOpacity onPress={onPress}>
+			<View style={styles.container}>
+				<Image source={getImage(restaurant.image_url)} style={styles.image} />
+				<View style={styles.textContainer}>
+					{/**Title and category tiles */}
+					<Text style={styles.title}>{restaurant.name}</Text>
+					<Categories categories={restaurant.categories} />
+				</View>
+				<Entypo name="chevron-small-right" size={24} color="#94a3b8" />
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
+		alignItems: "center",
 		flexDirection: "row",
 		paddingVertical: 16,
 		paddingHorizontal: 8,
@@ -42,6 +48,7 @@ const styles = StyleSheet.create({
 	textContainer: {
 		flex: 1,
 		justifyContent: "flex-end",
+		gap: 8,
 	},
 	title: {
 		fontSize: 24,
