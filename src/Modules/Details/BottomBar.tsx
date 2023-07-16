@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 type Props = {
 	coordinates: { latitude: string; longitude: string };
@@ -49,6 +50,13 @@ function BottomBar({ coordinates, phone, style }: Props) {
 			>
 				<FontAwesome name="phone" size={24} color="#ED4337" />
 				<Text style={styles.callButtonText}>Call</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={[styles.callButton, styles.iconButton]}
+				onPress={() => {}}
+			>
+				<AntDesign name="hearto" size={24} color="#ED4337" />
+				<Text style={styles.callButtonText}>Save</Text>
 			</TouchableOpacity>
 		</View>
 	);
