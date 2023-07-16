@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import Details from "Modules/Details/";
 import { SearchScreen } from "Modules/SearchScreen/";
 import HomeScreen from "Modules/Drawer/Drawer";
+import SavedRestaurantProvider from "Modules/Common/api/SavedState";
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -20,14 +21,16 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<StatusBar style="auto" />
-			<Stack.Navigator initialRouteName="Home">
-				<Stack.Screen
-					name="Home"
-					component={HomeScreen}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen name="Details" component={Details} />
-			</Stack.Navigator>
+			<SavedRestaurantProvider>
+				<Stack.Navigator initialRouteName="Home">
+					<Stack.Screen
+						name="Home"
+						component={HomeScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen name="Details" component={Details} />
+				</Stack.Navigator>
+			</SavedRestaurantProvider>
 		</NavigationContainer>
 	);
 }
