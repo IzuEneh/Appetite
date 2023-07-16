@@ -8,12 +8,14 @@ import Reviews from "./Reviews";
 import BusinessHeader from "./BusinessHeader";
 import ImageSlider from "./ImageSlider";
 import { useRestaurant } from "Modules/Common/hooks/";
+import { useSavedRestaurantsDispatch } from "Modules/Common/api/SavedState";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
 function Details({ route }: NavProp) {
 	const { id } = route.params;
 	const business = useRestaurant(id);
+	const dispatch = useSavedRestaurantsDispatch();
 
 	if (!business) {
 		return (
@@ -36,6 +38,17 @@ function Details({ route }: NavProp) {
 				coordinates={business.coordinates}
 				phone={business.phone}
 				style={styles.bottomBar}
+				onSave={() => {
+					dispatch({
+						type: "add",
+						data: {
+							categories: business.categories,
+							id: business.id,
+							image_url: business.image_url,
+							name: business.name,
+						},
+					});
+				}}
 			/>
 		</>
 	);

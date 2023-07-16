@@ -15,7 +15,7 @@ type State = {
 
 type Action = {
 	type: string;
-	data: any;
+	data: SavedRestaurant | { id: string };
 };
 
 const initialState = {
@@ -93,10 +93,28 @@ const useSavedRestaurantsDispatch = () => {
 function savedRestaurantReducer(state: State, action: Action): State {
 	switch (action.type) {
 		case "add": {
-			return state;
+			const newRestaurant = action.data;
+			if (
+				(newRestaurant as SavedRestaurant).name == undefined ||
+				state.saved.some((item) => item.id == newRestaurant.id)
+			) {
+				return state;
+			}
+
+			const saved = [...state.saved, newRestaurant as SavedRestaurant];
+			return {
+				...state,
+				saved,
+			};
 		}
 		case "remove": {
-			return state;
+			const { id } = action.data;
+
+			const saved = state.saved.filter((item) => item.id !== id);
+			return {
+				...state,
+				saved,
+			};
 		}
 		default:
 			return state;

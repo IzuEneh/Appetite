@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 16,
 		paddingTop: 48,
+		paddingBottom: 100,
 	},
 	separator: {
 		borderColor: "#94a3b8",

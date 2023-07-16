@@ -13,12 +13,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 type Props = {
+	onSave: () => void;
 	coordinates: { latitude: string; longitude: string };
 	phone: string;
 	style?: ViewStyle;
 };
 
-function BottomBar({ coordinates, phone, style }: Props) {
+function BottomBar({ coordinates, phone, style, onSave }: Props) {
 	const handleNavigate = async () => {
 		const { latitude, longitude } = coordinates;
 		const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
@@ -53,7 +54,7 @@ function BottomBar({ coordinates, phone, style }: Props) {
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={[styles.callButton, styles.iconButton]}
-				onPress={() => {}}
+				onPress={onSave}
 			>
 				<AntDesign name="hearto" size={24} color="#ED4337" />
 				<Text style={styles.callButtonText}>Save</Text>
