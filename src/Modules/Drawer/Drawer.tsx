@@ -18,7 +18,11 @@ function HomeScreen() {
 				component={SearchScreen}
 				options={{ headerShown: false }}
 			/>
-			<Drawer.Screen name="Saved" component={ListView} />
+			<Drawer.Screen
+				name="Saved"
+				component={ListView}
+				options={{ headerShown: false }}
+			/>
 		</Drawer.Navigator>
 	);
 }

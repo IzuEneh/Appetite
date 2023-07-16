@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import RestaurantTile from "./RestaurantTile";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Feather } from "@expo/vector-icons";
 import { RootStackParamList } from "App";
 import { DrawerParamList } from "./Drawer";
 
@@ -64,7 +65,15 @@ function ListView({ navigation }: NavProp) {
 	};
 
 	return (
-		<View style={{ paddingHorizontal: 16 }}>
+		<View style={styles.container}>
+			<View style={styles.header}>
+				<Feather
+					name="sidebar"
+					size={44}
+					color="black"
+					onPress={navigation.toggleDrawer}
+				/>
+			</View>
 			<FlatList
 				data={DATA}
 				renderItem={({ item }) => (
@@ -80,6 +89,14 @@ function ListView({ navigation }: NavProp) {
 }
 
 const styles = StyleSheet.create({
+	header: {
+		height: 75,
+		justifyContent: "center",
+	},
+	container: {
+		paddingHorizontal: 16,
+		paddingTop: 48,
+	},
 	separator: {
 		borderColor: "#94a3b8",
 		borderWidth: 1,
