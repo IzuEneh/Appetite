@@ -11,11 +11,12 @@ type SavedRestaurant = {
 
 type State = {
 	saved: SavedRestaurant[];
+	selectedIDs: Set<string>;
 };
 
 type Action = {
 	type: string;
-	data: SavedRestaurant | { id: string };
+	data: SavedRestaurant;
 };
 
 const initialState = {
@@ -63,6 +64,14 @@ const initialState = {
 			name: "Saigon Pearl Vietnamese Restaurant",
 		},
 	],
+	selectedIDs: new Set([
+		"nuuqDBCPz82rk2jm1-yi_w",
+		"RwZxc7vqYGOj99K1CYildQ",
+		"mkQ31BFYV8ri7znJpHd7Ww",
+		"r92duI6MtSi1-seaIeQUWA",
+		"7UxTPaoqbbd-ZKc_7gbMow",
+		"tps4NEm5BpoXm1YnBdEQkQ",
+	]),
 };
 
 const SavedRestaurantContext = createContext<State>(initialState);
@@ -92,28 +101,22 @@ const useSavedRestaurantsDispatch = () => {
 
 function savedRestaurantReducer(state: State, action: Action): State {
 	switch (action.type) {
-		case "add": {
-			const newRestaurant = action.data;
-			if (
-				(newRestaurant as SavedRestaurant).name == undefined ||
-				state.saved.some((item) => item.id == newRestaurant.id)
-			) {
-				return state;
+		case "toggleSaved": {
+			const { id } = action.data;
+			if (state.selectedIDs.has(id)) {
+				const saved = state.saved.filter((item) => item.id !== id);
+				state.selectedIDs.delete(id);
+				return {
+					...state,
+					saved,
+				};
 			}
 
-			const saved = [...state.saved, newRestaurant as SavedRestaurant];
+			const saved = [...state.saved, action.data];
 			return {
 				...state,
 				saved,
-			};
-		}
-		case "remove": {
-			const { id } = action.data;
-
-			const saved = state.saved.filter((item) => item.id !== id);
-			return {
-				...state,
-				saved,
+				selectedIDs: state.selectedIDs.add(id),
 			};
 		}
 		default:

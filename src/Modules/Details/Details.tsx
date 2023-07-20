@@ -8,7 +8,11 @@ import Reviews from "./Reviews";
 import BusinessHeader from "./BusinessHeader";
 import ImageSlider from "./ImageSlider";
 import { useRestaurant } from "Modules/Common/hooks/";
-import { useSavedRestaurantsDispatch } from "Modules/Common/api/SavedState";
+import {
+	useSavedRestaurants,
+	useSavedRestaurantsDispatch,
+} from "Modules/Common/api/SavedState";
+import { Business } from "Modules/Common/api/types";
 
 type NavProp = NativeStackScreenProps<RootStackParamList, "Details">;
 
@@ -16,6 +20,7 @@ function Details({ route }: NavProp) {
 	const { id } = route.params;
 	const business = useRestaurant(id);
 	const dispatch = useSavedRestaurantsDispatch();
+	const { selectedIDs } = useSavedRestaurants();
 
 	if (!business) {
 		return (
@@ -35,20 +40,21 @@ function Details({ route }: NavProp) {
 				</View>
 			</ScrollView>
 			<BottomBar
+				isSelected={selectedIDs.has(id)}
 				coordinates={business.coordinates}
 				phone={business.phone}
 				style={styles.bottomBar}
-				onSave={() => {
+				onSave={() =>
 					dispatch({
-						type: "add",
+						type: "toggleSaved",
 						data: {
 							categories: business.categories,
 							id: business.id,
 							image_url: business.image_url,
 							name: business.name,
 						},
-					});
-				}}
+					})
+				}
 			/>
 		</>
 	);
