@@ -1,6 +1,15 @@
-import { Dispatch, PropsWithChildren, createContext, useContext } from "react";
+import {
+	Dispatch,
+	PropsWithChildren,
+	createContext,
+	useContext,
+	useEffect,
+} from "react";
 import { useReducer } from "react";
 import { Category } from "./types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const SAVED_DATA_KEY = "saved-state";
 
 type SavedRestaurant = {
 	categories: Category[];
@@ -16,62 +25,12 @@ type State = {
 
 type Action = {
 	type: string;
-	data: SavedRestaurant;
+	data: State | SavedRestaurant;
 };
 
 const initialState = {
-	saved: [
-		{
-			categories: [{ alias: "italian", title: "Italian" }],
-			id: "nuuqDBCPz82rk2jm1-yi_w",
-			image_url:
-				"https://s3-media3.fl.yelpcdn.com/bphoto/Q-5ghR1UrOvDJtzFdKv2cw/o.jpg",
-			name: "Amici Italian Grill",
-		},
-		{
-			categories: [{ alias: "chinese", title: "Chinese" }],
-			id: "RwZxc7vqYGOj99K1CYildQ",
-			image_url:
-				"https://s3-media2.fl.yelpcdn.com/bphoto/rAHNQuLBf0f2bkMcWgEKjA/o.jpg",
-			name: "Ginger Beef Bistro House",
-		},
-		{
-			categories: [{ alias: "dimsum", title: "Dim Sum" }],
-			id: "mkQ31BFYV8ri7znJpHd7Ww",
-			image_url:
-				"https://s3-media2.fl.yelpcdn.com/bphoto/VljMdi95cuN7QG6tR52Qdw/o.jpg",
-			name: "T.Pot China Bistro",
-		},
-		{
-			categories: [{ alias: "pizza", title: "Pizza" }],
-			id: "r92duI6MtSi1-seaIeQUWA",
-			image_url:
-				"https://s3-media4.fl.yelpcdn.com/bphoto/-9dyFfjHXQrGrP1TxCBdtQ/o.jpg",
-			name: "Pizza Panorama",
-		},
-		{
-			categories: [{ alias: "indpak", title: "Indian" }],
-			id: "7UxTPaoqbbd-ZKc_7gbMow",
-			image_url:
-				"https://s3-media4.fl.yelpcdn.com/bphoto/co1wXvrjYNSYXIfO931I8w/o.jpg",
-			name: "JPs Indian Bistro",
-		},
-		{
-			categories: [{ alias: "vietnamese", title: "Vietnamese" }],
-			id: "tps4NEm5BpoXm1YnBdEQkQ",
-			image_url:
-				"https://s3-media2.fl.yelpcdn.com/bphoto/tMQsWe8S9xYzL60vezocwg/o.jpg",
-			name: "Saigon Pearl Vietnamese Restaurant",
-		},
-	],
-	selectedIDs: new Set([
-		"nuuqDBCPz82rk2jm1-yi_w",
-		"RwZxc7vqYGOj99K1CYildQ",
-		"mkQ31BFYV8ri7znJpHd7Ww",
-		"r92duI6MtSi1-seaIeQUWA",
-		"7UxTPaoqbbd-ZKc_7gbMow",
-		"tps4NEm5BpoXm1YnBdEQkQ",
-	]),
+	saved: [],
+	selectedIDs: new Set([]),
 };
 
 const SavedRestaurantContext = createContext<State>(initialState);
@@ -81,6 +40,18 @@ const SavedRestaurantDispatchContext = createContext<Dispatch<Action>>(
 
 function SavedRestaurantProvider({ children }: PropsWithChildren<{}>) {
 	const [saved, dispatch] = useReducer(savedRestaurantReducer, initialState);
+	const getInitialState = async () => {
+		const data: State = await getData();
+		if (data != null) {
+			dispatch({
+				type: "setInitialState",
+				data,
+			});
+		}
+	};
+	useEffect(() => {
+		getInitialState();
+	}, []);
 
 	return (
 		<SavedRestaurantContext.Provider value={saved}>
@@ -101,28 +72,66 @@ const useSavedRestaurantsDispatch = () => {
 
 function savedRestaurantReducer(state: State, action: Action): State {
 	switch (action.type) {
+		case "setInitialState": {
+			if ("id" in action.data) {
+				return state;
+			}
+
+			return action.data;
+		}
 		case "toggleSaved": {
+			if ("saved" in action.data) {
+				// check if state object
+				return state;
+			}
+
 			const { id } = action.data;
 			if (state.selectedIDs.has(id)) {
 				const saved = state.saved.filter((item) => item.id !== id);
 				state.selectedIDs.delete(id);
-				return {
+				const newState = {
 					...state,
 					saved,
 				};
+
+				storeData(newState);
+				return newState;
 			}
 
 			const saved = [...state.saved, action.data];
-			return {
+			const newState = {
 				...state,
 				saved,
 				selectedIDs: state.selectedIDs.add(id),
 			};
+
+			storeData(newState);
+			return newState;
 		}
 		default:
 			return state;
 	}
 }
+
+const storeData = async (value: State) => {
+	try {
+		const jsonValue = JSON.stringify(value);
+		await AsyncStorage.setItem(SAVED_DATA_KEY, jsonValue);
+	} catch (e) {
+		// saving error
+		console.log("Unable to save data: ", e);
+	}
+};
+
+const getData = async () => {
+	try {
+		const jsonValue = await AsyncStorage.getItem(SAVED_DATA_KEY);
+		return jsonValue != null ? JSON.parse(jsonValue) : null;
+	} catch (e) {
+		// error reading value
+		console.log("unable to fetch data: ", e);
+	}
+};
 
 export {
 	SavedRestaurantProvider as default,
