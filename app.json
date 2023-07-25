@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FoodNearMe",
-    "slug": "FoodNearMe",
+    "name": "Appetite",
+    "slug": "appetite",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -15,21 +15,22 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ieneh.appetite"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.izu.eneh.FoodNearMe"
+      "package": "com.ieneh.appetite"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "01396a7e-208c-4df7-b371-9510acc1ce72"
+        "projectId": "74169e16-e389-415b-9908-6734f98b7033"
       }
     }
   }
