@@ -7,8 +7,7 @@ const API_ENDPOINT = "https://api.yelp.com/v3";
 const BUSINESS_PATH = "/businesses/";
 const REVIEWS_PATH = "/reviews";
 
-const api_key =
-	"SPITexu5SDCKyeI3W5v2SRUoXbaJNX2vgjC8F2y_CzCfGt2KHgF2C7HLiUZtMXNOX99_3Z6hx2xoLISH40_J2yhPBYw8Ws3niJljDatcmEV_H7135xFHqSaHLW76Y3Yx";
+const api_key = process.env["API_KEY"];
 
 const headers = { authorization: `bearer ${api_key}` };
 
