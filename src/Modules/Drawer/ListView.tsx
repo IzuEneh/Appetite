@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import RestaurantTile from "./RestaurantTile";
 import { DrawerScreenProps } from "@react-navigation/drawer";
@@ -31,6 +31,7 @@ function ListView({ navigation }: NavProp) {
 					color="black"
 					onPress={navigation.toggleDrawer}
 				/>
+				<Text style={styles.title}>SAVED PLACES</Text>
 			</View>
 			<FlatList
 				data={saved}
@@ -50,6 +51,15 @@ const styles = StyleSheet.create({
 	header: {
 		height: 75,
 		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+	},
+	title: {
+		// marginHorizontal: "auto",
+		flex: 1,
+		textAlign: "center",
+		fontSize: 32,
+		fontWeight: "bold",
 	},
 	container: {
 		paddingHorizontal: 16,
