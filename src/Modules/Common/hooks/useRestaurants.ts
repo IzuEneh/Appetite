@@ -139,6 +139,7 @@ const reducer = (state: State, action: Action): State => {
 				restaurants: reversed,
 				error: "",
 				initialFetch: true,
+				offset: state.offset + fetchNum,
 				loading: false,
 			};
 		}
