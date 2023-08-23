@@ -1,4 +1,6 @@
 {
+  "name": "FoodNearMe",
+  "displayName": "FoodNearMe",
   "expo": {
     "name": "Appetite",
     "slug": "appetite",

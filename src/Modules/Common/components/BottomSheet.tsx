@@ -1,40 +1,45 @@
-import React, { PropsWithChildren, useEffect, useRef } from "react";
-import BottomSheet from "reanimated-bottom-sheet";
+import React, {PropsWithChildren, useEffect, useMemo, useRef} from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 interface Props {
-	isOpen: boolean;
-	onClose?: () => void;
-	snapPoints: number[];
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const BottomSheetComponent = ({
-	children,
-	isOpen,
-	onClose,
-	snapPoints,
+  children,
+  isOpen,
+  onClose,
 }: PropsWithChildren<Props>) => {
-	const bottomSheetRef = useRef<BottomSheet>(null);
-	useEffect(() => {
-		if (isOpen) {
-			bottomSheetRef.current?.snapTo(0);
-		} else {
-			bottomSheetRef.current?.snapTo(1);
-		}
-	}, [isOpen]);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['65%'], []);
+  useEffect(() => {
+    if (isOpen) {
+      bottomSheetRef.current?.expand();
+    } else {
+      bottomSheetRef.current?.close();
+    }
+  }, [isOpen]);
 
-	const renderContent = () => <>{children}</>;
+  const handleAnimate = (from: number, to: number) => {
+    if (from === 0 && to === -1) {
+      onClose();
+    }
+  };
 
-	return (
-		<>
-			<BottomSheet
-				ref={bottomSheetRef}
-				snapPoints={snapPoints}
-				borderRadius={10}
-				renderContent={renderContent}
-				onCloseEnd={onClose}
-			/>
-		</>
-	);
+  return (
+    <>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        onAnimate={handleAnimate}
+        children={children}
+        enablePanDownToClose
+        enableContentPanningGesture
+      />
+    </>
+  );
 };
 
 export default BottomSheetComponent;
